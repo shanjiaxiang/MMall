@@ -1,7 +1,10 @@
 package com.latte.example;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.late.core.activities.ProxyActivity;
@@ -14,7 +17,7 @@ public class ExampleActivity extends ProxyActivity {
 
     @Override
     public LatteFragment setRootDelegate() {
-        return null;
+        return new ExampleFragment();
     }
 
 
