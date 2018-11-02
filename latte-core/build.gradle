@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 
 android {
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
     compileSdkVersion 27
     defaultConfig {
         minSdkVersion 21
@@ -38,6 +42,7 @@ android {
     }
     productFlavors {
     }
+
 }
 
 dependencies {
@@ -73,10 +78,12 @@ dependencies {
     api('com.github.niorgai:StatusBarCompat:2.1.4', {
         exclude group: 'com.android.support'
     })
+    api 'com.github.hotchemi:permissionsdispatcher:3.0.1'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.0.1'
     //权限
-    implementation('com.github.hotchemi:permissionsdispatcher:3.2.0') {
-        exclude module: 'support-v13'
-    }
+//    implementation('com.github.hotchemi:permissionsdispatcher:3.2.0') {
+//        exclude module: 'support-v13'
+//    }
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.2.0'
     //剪裁
     implementation 'com.github.yalantis:ucrop:2.2.2-native'

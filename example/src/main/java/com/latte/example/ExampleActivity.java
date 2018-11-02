@@ -12,6 +12,7 @@ import com.late.core.app.Latte;
 import com.diabin.fastec.example.R;
 import com.late.core.fragments.LatteFragment;
 
+
 public class ExampleActivity extends ProxyActivity {
 
 
