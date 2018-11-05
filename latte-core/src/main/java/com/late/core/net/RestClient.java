@@ -8,6 +8,7 @@ import com.late.core.net.callback.IFailure;
 import com.late.core.net.callback.IRequest;
 import com.late.core.net.callback.ISuccess;
 import com.late.core.net.callback.RequestCallbacks;
+import com.late.core.net.download.DownloadHandler;
 import com.late.core.ui.LatteLoader;
 import com.late.core.ui.LoaderStyle;
 
@@ -40,6 +41,9 @@ public class RestClient {
     private final LoaderStyle LOADER_STYLE;
     private final Context CONTEXT;
     private final File FILE;
+    private final String DOWNLOAD_DIR;
+    private final String EXTENSION;
+    private final String NAME;
 
     RestClient(String url,
                WeakHashMap <String, Object> params,
@@ -50,7 +54,10 @@ public class RestClient {
                RequestBody body,
                LoaderStyle style,
                Context context,
-               File file) {
+               File file,
+               String downloadDir,
+               String extension,
+               String name) {
         this.URL = url;
         PARAMS.putAll(params);
         this.REQUEST = request;
@@ -61,6 +68,9 @@ public class RestClient {
         this.LOADER_STYLE = style;
         this.CONTEXT = context;
         this.FILE = file;
+        this.DOWNLOAD_DIR = downloadDir;
+        this.EXTENSION = extension;
+        this.NAME = name;
     }
 
     public static RestClientBuilder Builder(){
@@ -146,8 +156,19 @@ public class RestClient {
         }
 
     }
+
     public final void delete(){
         request(HttpMethod.DELETE);
     }
+
+    public final void upload(){
+        request(HttpMethod.UPLOAD);
+    }
+
+    public final void download(){
+        new DownloadHandler(URL, REQUEST, SUCCESS, FAILURE, ERROR, DOWNLOAD_DIR, EXTENSION, NAME)
+                .handleDownload();
+    }
+
 
 }
