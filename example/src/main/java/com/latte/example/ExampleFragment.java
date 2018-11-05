@@ -13,6 +13,7 @@ import com.late.core.net.callback.IError;
 import com.late.core.net.callback.IFailure;
 import com.late.core.net.callback.IRequest;
 import com.late.core.net.callback.ISuccess;
+import com.late.core.ui.LoaderStyle;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -42,7 +43,7 @@ public class ExampleFragment extends LatteFragment {
     public void testRestClientBuild(){
         RestClient.Builder()
                 .url("http://news.baidu.com/")
-                .loader(getContext())
+                .loader( LoaderStyle.BallBeatIndicator, getContext())
                 .onRequest(new IRequest() {
                     @Override
                     public void onRequestStart() {

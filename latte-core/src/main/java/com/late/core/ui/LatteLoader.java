@@ -26,6 +26,7 @@ public class LatteLoader {
     private static final String DEFAULT_LOADER_STYLE = LoaderStyle.BallSpinFadeLoaderIndicator.name();
 
     public static void showLoading(Context context, Enum<LoaderStyle> type){
+        Log.d("show", "showLoading: " + type.name());
         showLoading(context, type.name());
     }
 
@@ -34,7 +35,7 @@ public class LatteLoader {
         final AppCompatDialog dialog = new AppCompatDialog(context, R.style.dialog);
         final AVLoadingIndicatorView avLoadingIndicatorView = LoaderCreator.create(type, context);
 
-        Log.d("show", "type:" + type);
+        Log.d("show", "showLoading2:" + type);
 
         dialog.setContentView(avLoadingIndicatorView);
 

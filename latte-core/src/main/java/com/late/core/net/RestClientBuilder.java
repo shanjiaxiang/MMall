@@ -8,6 +8,7 @@ import com.late.core.net.callback.IRequest;
 import com.late.core.net.callback.ISuccess;
 import com.late.core.ui.LoaderStyle;
 
+import java.io.File;
 import java.util.Map;
 import java.util.WeakHashMap;
 
@@ -28,6 +29,7 @@ public class RestClientBuilder {
     private RequestBody mBody = null;
     private Context mContext = null;
     private LoaderStyle mLoaderStyle = null;
+    private File mFile = null;
 
     RestClientBuilder() {
     }
@@ -49,6 +51,17 @@ public class RestClientBuilder {
 
     public final RestClientBuilder raw(String raw){
         this.mBody = RequestBody.create(MediaType.parse("application/json;charset=UTF-8"), raw);
+        return this;
+    }
+
+
+    public final RestClientBuilder file(File file){
+        this.mFile = file;
+        return this;
+    }
+
+    public final RestClientBuilder file(String filePath){
+        this.mFile = new File(filePath);
         return this;
     }
 
@@ -86,7 +99,7 @@ public class RestClientBuilder {
 
     public final RestClient build(){
         return new RestClient(mUrl, PARAMS, mIRequest, mISuccess,
-                mIFailure, mIError, mBody, mLoaderStyle, mContext);
+                mIFailure, mIError, mBody, mLoaderStyle, mContext, mFile);
     }
 
 }
