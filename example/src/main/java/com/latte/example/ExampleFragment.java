@@ -3,10 +3,13 @@ package com.latte.example;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.diabin.fastec.example.R;
+import com.late.core.app.ConfigType;
+import com.late.core.app.Latte;
 import com.late.core.fragments.LatteFragment;
 import com.late.core.net.RestClient;
 import com.late.core.net.callback.IError;
@@ -16,9 +19,11 @@ import com.late.core.net.callback.ISuccess;
 import com.late.core.ui.LoaderStyle;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.BufferedSink;
@@ -42,7 +47,7 @@ public class ExampleFragment extends LatteFragment {
 
     public void testRestClientBuild(){
         RestClient.Builder()
-                .url("http://news.baidu.com/")
+                .url("http://127.0.0.1/index")
                 .loader( LoaderStyle.BallBeatIndicator, getContext())
                 .onRequest(new IRequest() {
                     @Override
@@ -58,7 +63,7 @@ public class ExampleFragment extends LatteFragment {
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-//                        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .failure(new IFailure() {

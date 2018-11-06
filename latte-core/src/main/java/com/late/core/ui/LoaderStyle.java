@@ -1,6 +1,7 @@
 package com.late.core.ui;
 
 /**
+ * 存储各种样式名称
  * Created by Administrator on 2018\11\2 0002.
  */
 
@@ -33,7 +34,4 @@ public enum LoaderStyle {
     PacmanIndicator,
     BallGridBeatIndicator,
     SemiCircleSpinIndicator
-
-
-
 }

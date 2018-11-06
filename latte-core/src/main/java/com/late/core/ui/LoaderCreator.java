@@ -15,9 +15,10 @@ import java.util.WeakHashMap;
 
 public final class LoaderCreator {
 
+    //存储样式名称字符串及对应的Indicator
     private static final WeakHashMap<String, Indicator> LOADING_MAP = new WeakHashMap <>();
 
-
+    //创建AVLoadingIndicatorView
     static AVLoadingIndicatorView create(String type, Context context){
         final AVLoadingIndicatorView avLoadingIndicatorView = new AVLoadingIndicatorView(context);
         if (LOADING_MAP.get(type) == null){
@@ -28,18 +29,22 @@ public final class LoaderCreator {
         return avLoadingIndicatorView;
     }
 
+    //通过样式名称字符串获取其indicator
     private static Indicator getIndicator(String name){
         if (name == null || name.isEmpty())
             return null;
         final StringBuilder drawableClassName = new StringBuilder();
         if (!name.contains(".")){
+            //通过反射获得报名
             final String defaultPackageName = AVLoadingIndicatorView.class.getPackage().getName();
+            //组装indicator
             drawableClassName.append(defaultPackageName)
                     .append(".indicators")
                     .append(".");
         }
         drawableClassName.append(name);
-        Log.d("show", "name: " + drawableClassName.toString());
+
+        //查找样式对应类
         try {
             final Class <?> drawableClass = Class.forName(drawableClassName.toString());
             return (Indicator) drawableClass.newInstance();

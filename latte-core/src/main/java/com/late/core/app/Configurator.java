@@ -1,10 +1,14 @@
 package com.late.core.app;
 
+import android.util.Log;
+
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import okhttp3.Interceptor;
 
 /**
  * Created by Administrator on 2018\10\31 0031.
@@ -13,9 +17,11 @@ import java.util.HashMap;
 public class Configurator {
 
     //存储配置项
-    private static final HashMap<String, Object> LATTE_CONFIGS = new HashMap <>();
+    private static final HashMap<Object, Object> LATTE_CONFIGS = new HashMap <>();
     //存储Icon描述字符串
     private static final ArrayList<IconFontDescriptor> ICONS = new ArrayList <>();
+
+    private static final ArrayList<Interceptor> INTERCEPTORS = new ArrayList <>();
 
 
     //构造方法初始化，未配置完成
@@ -29,7 +35,7 @@ public class Configurator {
     }
 
     //获得配置列表
-    final HashMap<String, Object> getLatteConfigs(){
+    final HashMap<Object, Object> getLatteConfigs(){
         return LATTE_CONFIGS;
     }
 
@@ -55,6 +61,27 @@ public class Configurator {
         ICONS.add(descriptor);
         return this;
     }
+
+    //添加拦截器
+    public final Configurator withInterceptor(Interceptor interceptor){
+        INTERCEPTORS.add(interceptor);
+        LATTE_CONFIGS.put(ConfigType.INTERCEPTOR, INTERCEPTORS);
+        return this;
+    }
+
+    //添加多个拦截器ArrayList
+    public final Configurator withInterceptors(ArrayList<Interceptor> interceptors){
+        INTERCEPTORS.addAll(interceptors);
+        LATTE_CONFIGS.put(ConfigType.INTERCEPTOR, INTERCEPTORS);
+        return this;
+    }
+
+    //添加dialog显示时间
+    public final Configurator withDelayTime(int delayTime){
+        LATTE_CONFIGS.put(ConfigType.LOADER_DELAY, delayTime);
+        return this;
+    }
+
 
     //初始化Iconify
     private void initIcons(){

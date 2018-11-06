@@ -3,6 +3,8 @@ package com.late.core.net;
 import android.content.Context;
 import android.util.Log;
 
+import com.late.core.app.ConfigType;
+import com.late.core.app.Latte;
 import com.late.core.net.callback.IError;
 import com.late.core.net.callback.IFailure;
 import com.late.core.net.callback.IRequest;

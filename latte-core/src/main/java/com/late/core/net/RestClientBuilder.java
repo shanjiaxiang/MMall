@@ -121,5 +121,4 @@ public class RestClientBuilder {
         return new RestClient(mUrl, PARAMS, mIRequest, mISuccess,
                 mIFailure, mIError, mBody, mLoaderStyle, mContext, mFile, mDownloadDir, mExtension, mName);
     }
-
 }

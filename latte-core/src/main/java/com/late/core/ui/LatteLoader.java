@@ -22,20 +22,20 @@ import java.util.ArrayList;
 public class LatteLoader {
     private static final int LOADER_SIZE_SCALE = 8;
     private static final int LOADER_OFFSET_SCALE = 10;
+    //将所有的Dialog保存在列表中，方便关闭
     private static final ArrayList<AppCompatDialog> LOADERS = new ArrayList <>();
     private static final String DEFAULT_LOADER_STYLE = LoaderStyle.BallSpinFadeLoaderIndicator.name();
 
+    //传入要显示样式对应枚举值
     public static void showLoading(Context context, Enum<LoaderStyle> type){
-        Log.d("show", "showLoading: " + type.name());
         showLoading(context, type.name());
     }
 
+    //重载
     public static void showLoading(Context context, String type){
 
         final AppCompatDialog dialog = new AppCompatDialog(context, R.style.dialog);
         final AVLoadingIndicatorView avLoadingIndicatorView = LoaderCreator.create(type, context);
-
-        Log.d("show", "showLoading2:" + type);
 
         dialog.setContentView(avLoadingIndicatorView);
 
@@ -55,10 +55,13 @@ public class LatteLoader {
         dialog.show();
     }
 
+    //重载
     public static void showLoading(Context context){
         showLoading(context, DEFAULT_LOADER_STYLE);
     }
 
+
+    //关闭所有正在显示的dialog
     public static void stopLoading(){
         for (AppCompatDialog dialog : LOADERS){
             if (dialog != null){

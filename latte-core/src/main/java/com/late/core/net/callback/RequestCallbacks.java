@@ -2,6 +2,8 @@ package com.late.core.net.callback;
 
 import android.os.Handler;
 
+import com.late.core.app.ConfigType;
+import com.late.core.app.Latte;
 import com.late.core.ui.LatteLoader;
 import com.late.core.ui.LoaderStyle;
 
@@ -55,7 +57,7 @@ public class RequestCallbacks implements Callback<String>{
                 public void run() {
                     LatteLoader.stopLoading();
                 }
-            },1000);
+            }, (int)Latte.getConfigurations().get(ConfigType.LOADER_DELAY));
         }
     }
 

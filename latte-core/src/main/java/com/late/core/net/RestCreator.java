@@ -1,13 +1,19 @@
 package com.late.core.net;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.late.core.app.ConfigType;
 import com.late.core.app.Latte;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.internal.functions.ObjectHelper;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
@@ -43,7 +49,24 @@ public class RestCreator {
 
     private static final class OKHttpHolder{
         private static final int TIME_OUT = 60;
-        private static final OkHttpClient OK_HTTP_CLIENT = new OkHttpClient.Builder()
+        private static final OkHttpClient.Builder BUILDER = new OkHttpClient.Builder();
+
+        private static final ArrayList<Interceptor> INTERCEPTORS = Latte.getConfiguration(ConfigType.INTERCEPTOR);
+
+        private static OkHttpClient.Builder addInterceptor(){
+            if (INTERCEPTORS != null && !INTERCEPTORS.isEmpty()){
+
+                for (Interceptor interceptor: INTERCEPTORS) {
+                    BUILDER.addInterceptor(interceptor);
+                }
+            } else if (INTERCEPTORS == null){
+                Toast.makeText(Latte.getApplication(), "INTERCEPTORS为null", Toast.LENGTH_SHORT).show();
+            } else if (INTERCEPTORS.isEmpty()){
+                Toast.makeText(Latte.getApplication(), "INTERCEPTORS为empty", Toast.LENGTH_SHORT).show();
+            }
+            return BUILDER;
+        }
+        private static final OkHttpClient OK_HTTP_CLIENT = addInterceptor()
                 .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
                 .build();
     }
