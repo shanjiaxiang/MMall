@@ -21,8 +21,6 @@ public class LauncherScrollFragment extends LatteFragment implements OnItemClick
     private ConvenientBanner<Integer> mConvenientBanner = null;
     private static final ArrayList<Integer> INTEGERS = new ArrayList<>();
 
-
-
     private void initBanner(){
         INTEGERS.add(R.mipmap.launcher_01);
         INTEGERS.add(R.mipmap.launcher_02);

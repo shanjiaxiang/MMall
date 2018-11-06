@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: me.dm7.barcodescanner:zbar-1.9.8">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/zbar-1.9.8.aar/97b2b11b8255ae89afe90055ae05f970/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/zbar-1.9.8.aar/97b2b11b8255ae89afe90055ae05f970/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-1/files-1.1/zbar-1.9.8.aar/97b2b11b8255ae89afe90055ae05f970/jars/libs/zbar.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
