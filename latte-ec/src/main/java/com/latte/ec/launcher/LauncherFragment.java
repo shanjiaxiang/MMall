@@ -7,6 +7,8 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.late.core.fragments.LatteFragment;
+import com.late.core.ui.launcher.ScrollLauncherTag;
+import com.late.core.util.storage.LattePreference;
 import com.late.core.util.timer.BaseTimerTask;
 import com.late.core.util.timer.ITimerListener;
 import com.latte.ec.R;
@@ -43,11 +45,26 @@ public class LauncherFragment extends LatteFragment implements ITimerListener{
         mTvTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (mTimer != null){
+                    mTimer.cancel();
+                    mTimer = null;
+                    checkIsShowScroll();
+                }
             }
         });
 
     }
+
+    //判断是否显示滑动启动页
+    private void checkIsShowScroll(){
+        if (!LattePreference.getAppFlag(ScrollLauncherTag.HAS_FIRST_LAUNCHER_APP.name())){
+            start(new LauncherScrollFragment(), SINGLETASK);
+        }else {
+            //检查用户是否登录了APP
+
+        }
+    }
+
 
     @Override
     public void onTimer() {
@@ -61,6 +78,7 @@ public class LauncherFragment extends LatteFragment implements ITimerListener{
                         if (mTimer != null){
                             mTimer.cancel();
                             mTimer = null;
+                            checkIsShowScroll();
                         }
                     }
                 }
