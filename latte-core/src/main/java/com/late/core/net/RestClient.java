@@ -75,9 +75,12 @@ public class RestClient {
         this.NAME = name;
     }
 
+    //建造者模式创建RestClient
     public static RestClientBuilder Builder(){
         return new RestClientBuilder();
     }
+
+
 
     private void request(HttpMethod method){
         final RestService service = RestCreator.getRestService();

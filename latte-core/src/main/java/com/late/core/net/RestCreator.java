@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.late.core.app.ConfigType;
 import com.late.core.app.Latte;
+import com.late.core.net.rx.RxRestService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,6 +17,7 @@ import io.reactivex.internal.functions.ObjectHelper;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 /**
@@ -44,6 +46,7 @@ public class RestCreator {
                 .baseUrl(BASE_URL)
                 .client(OKHttpHolder.OK_HTTP_CLIENT)
                 .addConverterFactory(ScalarsConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
 
@@ -61,7 +64,7 @@ public class RestCreator {
                 }
             } else if (INTERCEPTORS == null){
                 Toast.makeText(Latte.getApplication(), "INTERCEPTORS为null", Toast.LENGTH_SHORT).show();
-            } else if (INTERCEPTORS.isEmpty()){
+            } else {
                 Toast.makeText(Latte.getApplication(), "INTERCEPTORS为empty", Toast.LENGTH_SHORT).show();
             }
             return BUILDER;
@@ -74,5 +77,14 @@ public class RestCreator {
     private static final class RestServiceHolder{
         private static final RestService REST_SERVICE = RetrofitHolder
                 .RETROFIT_CLIENT.create(RestService.class);
+    }
+
+    private static final class RxRestServiceHolder{
+        private static final RxRestService REST_SERVICE = RetrofitHolder
+                .RETROFIT_CLIENT.create(RxRestService.class);
+    }
+
+    public static RxRestService getRxRestService(){
+        return RxRestServiceHolder.REST_SERVICE;
     }
 }
