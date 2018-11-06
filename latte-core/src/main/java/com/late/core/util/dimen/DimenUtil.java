@@ -1,4 +1,4 @@
-package com.late.core.util;
+package com.late.core.util.dimen;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;

@@ -2,15 +2,12 @@ package com.late.core.ui;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatDialog;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.late.core.R;
-import com.late.core.app.Latte;
-import com.late.core.util.DimenUtil;
+import com.late.core.util.dimen.DimenUtil;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
