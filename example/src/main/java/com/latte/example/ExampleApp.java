@@ -23,5 +23,6 @@ public class ExampleApp extends Application {
                 .withDelayTime(1000)
                 .withInterceptor(new DebugInterceptor("index", R.raw.test))
                 .configure();
+
     }
 }

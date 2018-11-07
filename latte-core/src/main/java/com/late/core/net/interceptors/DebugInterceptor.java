@@ -54,6 +54,7 @@ public class DebugInterceptor extends BaseInterceptor {
             Log.d("show", "进行拦截....");
             return debugResponse(chain, DEBUG_RAW_ID);
         }
+        Log.d("show", "未进行拦截....");
         //不进行拦截时执行原请求操作
         return chain.proceed(chain.request());
     }

@@ -14,6 +14,7 @@ import com.diabin.fastec.example.R;
 import com.late.core.fragments.LatteFragment;
 import com.latte.ec.launcher.LauncherFragment;
 import com.latte.ec.launcher.LauncherScrollFragment;
+import com.latte.ec.sign.SignUpFragment;
 
 
 public class ExampleActivity extends ProxyActivity {
@@ -28,7 +29,7 @@ public class ExampleActivity extends ProxyActivity {
 
     @Override
     public LatteFragment setRootDelegate() {
-        return new LauncherFragment();
+        return new SignUpFragment();
     }
 
 

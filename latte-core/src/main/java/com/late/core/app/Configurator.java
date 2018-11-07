@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
+import com.late.core.util.log.LatteLogger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,6 +48,7 @@ public class Configurator {
     //配置完成
     public void configure(){
         initIcons();
+        initLogger();
         LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), true);
     }
 
@@ -93,7 +95,9 @@ public class Configurator {
         }
     }
 
-
+    private void initLogger(){
+        LatteLogger.initLogger();
+    }
 
     //检查是否配置完成
     private void checkConfiguration(){
@@ -108,5 +112,7 @@ public class Configurator {
         checkConfiguration();
         return (T) LATTE_CONFIGS.get(key.name());
     }
+
+
 
 }
