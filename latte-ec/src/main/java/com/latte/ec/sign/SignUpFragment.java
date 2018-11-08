@@ -1,5 +1,6 @@
 package com.latte.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +31,16 @@ public class SignUpFragment extends LatteFragment{
     private TextInputEditText mRePassword = null;
     private AppCompatButton mSignUp = null;
     private AppCompatTextView mLinkSignIn = null;
+
+    private ISignListener mISignListener = null;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener){
+            mISignListener = (ISignListener) activity;
+        }
+    }
 
     private boolean checkForm() {
         final String name = mName.getText().toString();
@@ -104,7 +115,7 @@ public class SignUpFragment extends LatteFragment{
         mSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (checkForm()){
+                if (checkForm()){
                     LatteLogger.d("USER_PROFILE", "start request ...");
                     RestClient.Builder()
                             .url("http://mock.fulingjie.com/mock/data/user_profile.json")
@@ -117,6 +128,8 @@ public class SignUpFragment extends LatteFragment{
                                 public void onSuccess(String response) {
                                     Log.d("show", "onSuccess");
                                     LatteLogger.json("USER_PROFILE", response);
+                                    //将返回的数据写入数据库
+                                    SignHandler.onSignUp(response, mISignListener);
                                 }
                             })
                             .failure(new IFailure() {
@@ -136,7 +149,7 @@ public class SignUpFragment extends LatteFragment{
                             .loader(getContext())
                             .build()
                             .get();
-//                }
+                }
             }
         });
         mLinkSignIn.setOnClickListener(new View.OnClickListener() {

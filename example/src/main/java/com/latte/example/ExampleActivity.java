@@ -12,25 +12,58 @@ import com.late.core.activities.ProxyActivity;
 import com.late.core.app.Latte;
 import com.diabin.fastec.example.R;
 import com.late.core.fragments.LatteFragment;
+import com.late.core.ui.launcher.ILauncherListener;
+import com.late.core.ui.launcher.OnLauncherFinishTag;
 import com.latte.ec.launcher.LauncherFragment;
 import com.latte.ec.launcher.LauncherScrollFragment;
+import com.latte.ec.sign.ISignListener;
+import com.latte.ec.sign.SignInFragment;
 import com.latte.ec.sign.SignUpFragment;
 
 
-public class ExampleActivity extends ProxyActivity {
+public class ExampleActivity extends ProxyActivity implements
+        ISignListener,
+        ILauncherListener {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         final ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null){
+        if (actionBar != null) {
             actionBar.hide();
         }
     }
 
     @Override
     public LatteFragment setRootDelegate() {
-        return new SignUpFragment();
+        return new LauncherFragment();
     }
 
 
+    @Override
+    public void onSignInSuccess() {
+        Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onSignUpSuccess() {
+        Toast.makeText(this, "注册成功", Toast.LENGTH_SHORT).show();
+    }
+
+
+    //launcher完成后回调
+    @Override
+    public void onLauncherFinish(OnLauncherFinishTag tag) {
+        switch (tag){
+            case SIGNED:
+                Toast.makeText(this, "启动结束，用户已登录", Toast.LENGTH_SHORT).show();
+                getSupportDelegate().startWithPop(new ExampleFragment());
+                break;
+            case NOT_SIGNED:
+                Toast.makeText(this, "启动结束，用户未登录", Toast.LENGTH_SHORT).show();
+                getSupportDelegate().startWithPop(new SignInFragment());
+                break;
+            default:
+                break;
+        }
+    }
 }

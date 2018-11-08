@@ -42,7 +42,7 @@ public class ExampleFragment extends LatteFragment {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        testRestClientBuild();
+//        testRestClientBuild();
     }
 
     public void testRestClientBuild(){

@@ -1,17 +1,24 @@
 package com.latte.ec.sign;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Toast;
 
 import com.joanzapata.iconify.widget.IconTextView;
 import com.late.core.fragments.LatteFragment;
+import com.late.core.net.RestClient;
+import com.late.core.net.callback.IError;
+import com.late.core.net.callback.IFailure;
+import com.late.core.net.callback.ISuccess;
+import com.late.core.util.log.LatteLogger;
 import com.latte.ec.R;
 
 /**
@@ -25,6 +32,18 @@ public class SignInFragment extends LatteFragment {
     private AppCompatButton mSignIn = null;
     private AppCompatTextView mLinkSignUp = null;
     private IconTextView mWechatSignUp = null;
+
+    private ISignListener mISignListener = null;
+
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof ISignListener){
+            mISignListener = (ISignListener) activity;
+        }
+    }
 
     private boolean checkForm() {
         final String email = mMail.getText().toString();
@@ -63,7 +82,37 @@ public class SignInFragment extends LatteFragment {
             @Override
             public void onClick(View view) {
                 if (checkForm()){
-                    Toast.makeText(getContext(), "登录成功", Toast.LENGTH_SHORT).show();
+                    LatteLogger.d("USER_PROFILE", "start request ...");
+                    RestClient.Builder()
+                            .url("http://mock.fulingjie.com/mock/data/user_profile.json")
+                            .params("email", mMail.getText().toString())
+                            .params("password", mPassword.getText().toString())
+                            .success(new ISuccess() {
+                                @Override
+                                public void onSuccess(String response) {
+                                    Log.d("show", "onSuccess");
+                                    LatteLogger.json("USER_PROFILE", response);
+                                    //将返回的数据写入数据库
+                                    SignHandler.onSignIn(response, mISignListener);
+                                }
+                            })
+                            .failure(new IFailure() {
+                                @Override
+                                public void onFailure() {
+                                    Log.d("show", "onFailure");
+                                    LatteLogger.d("USER_PROFILE", "onFailure");
+                                }
+                            })
+                            .error(new IError() {
+                                @Override
+                                public void onError(int code, String msg) {
+                                    Log.d("show", "onError");
+                                    LatteLogger.d("USER_PROFILE", "onError");
+                                }
+                            })
+                            .loader(getContext())
+                            .build()
+                            .get();
                 }
             }
         });

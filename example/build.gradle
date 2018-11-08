@@ -49,4 +49,7 @@ dependencies {
     implementation 'cn.jiguang.sdk:jcore:1.2.1'
     compileOnly project(':latte-annotations')
     annotationProcessor project(':latte-compiler')
+    //调试工具
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 }
