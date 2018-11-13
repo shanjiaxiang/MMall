@@ -10,5 +10,8 @@ public enum ConfigType {
     CONFIG_READY,
     ICON,
     LOADER_DELAY,
-    INTERCEPTOR
+    INTERCEPTOR,
+    WECHAT_APP_ID,
+    WECHAT_APP_CECRET,
+    ACTIVITY_WECHAT
 }

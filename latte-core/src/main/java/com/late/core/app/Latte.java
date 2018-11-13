@@ -30,4 +30,9 @@ public final class Latte {
     public static Context getApplicationContext(){
         return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT.name());
     }
+
+    public static Configurator getConfigurator(){
+        return Configurator.getInstance();
+    }
+
 }

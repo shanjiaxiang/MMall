@@ -1,5 +1,6 @@
 package com.late.core.app;
 
+import android.app.Activity;
 import android.util.Log;
 
 import com.joanzapata.iconify.IconFontDescriptor;
@@ -84,6 +85,22 @@ public class Configurator {
         return this;
     }
 
+    //配置AppId
+    public final Configurator withWeChatAppId(String appId){
+        LATTE_CONFIGS.put(ConfigType.WECHAT_APP_ID, appId);
+        return this;
+    }
+
+    //配置加密
+    public final Configurator withWeChatSecret(String secret){
+        LATTE_CONFIGS.put(ConfigType.WECHAT_APP_CECRET, secret);
+        return this;
+    }
+
+    public final Configurator withWeChatActivity(Activity activity){
+        LATTE_CONFIGS.put(ConfigType.ACTIVITY_WECHAT, activity);
+        return this;
+    }
 
     //初始化Iconify
     private void initIcons(){
