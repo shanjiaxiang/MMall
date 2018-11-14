@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.diabin.fastec.example.R;
 import com.late.core.app.ConfigType;
 import com.late.core.app.Latte;
 import com.late.core.fragments.LatteFragment;

@@ -15,6 +15,7 @@ import com.late.core.ui.launcher.ILauncherListener;
 import com.late.core.ui.launcher.OnLauncherFinishTag;
 import com.latte.ec.launcher.LauncherFragment;
 import com.latte.ec.launcher.LauncherScrollFragment;
+import com.latte.ec.main.EcBottomFragment;
 import com.latte.ec.sign.ISignListener;
 import com.latte.ec.sign.SignInFragment;
 import com.latte.ec.sign.SignUpFragment;
@@ -56,7 +57,7 @@ public class ExampleActivity extends ProxyActivity implements
         switch (tag){
             case SIGNED:
                 Toast.makeText(this, "启动结束，用户已登录", Toast.LENGTH_SHORT).show();
-                getSupportDelegate().startWithPop(new ExampleFragment());
+                getSupportDelegate().startWithPop(new EcBottomFragment());
                 break;
             case NOT_SIGNED:
                 Toast.makeText(this, "启动结束，用户未登录", Toast.LENGTH_SHORT).show();

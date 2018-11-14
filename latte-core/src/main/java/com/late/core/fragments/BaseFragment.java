@@ -220,4 +220,7 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
     public void start(final ISupportFragment toFragment, @LaunchMode int launchMode) {
         DELEGATE.start(toFragment, launchMode);
     }
+
+
+
 }
