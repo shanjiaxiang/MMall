@@ -1,6 +1,7 @@
 package com.late.core.app;
 
 import android.app.Activity;
+import android.os.Handler;
 import android.util.Log;
 
 import com.joanzapata.iconify.IconFontDescriptor;
@@ -25,10 +26,14 @@ public class Configurator {
 
     private static final ArrayList<Interceptor> INTERCEPTORS = new ArrayList <>();
 
+    private static final Handler HANDLER = new Handler();
+
+
 
     //构造方法初始化，未配置完成
     private Configurator(){
         LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), false);
+        LATTE_CONFIGS.put(ConfigType.HANDLER, HANDLER);
     }
 
     //获取单例
@@ -99,6 +104,11 @@ public class Configurator {
 
     public final Configurator withWeChatActivity(Activity activity){
         LATTE_CONFIGS.put(ConfigType.ACTIVITY_WECHAT, activity);
+        return this;
+    }
+
+    public final Configurator withHandler(Handler handler){
+        LATTE_CONFIGS.put(ConfigType.HANDLER, handler);
         return this;
     }
 

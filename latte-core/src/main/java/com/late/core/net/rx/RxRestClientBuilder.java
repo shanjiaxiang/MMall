@@ -2,13 +2,8 @@ package com.late.core.net.rx;
 
 import android.content.Context;
 
-import com.late.core.net.RestClient;
 import com.late.core.net.RestCreator;
-import com.late.core.net.callback.IError;
-import com.late.core.net.callback.IFailure;
-import com.late.core.net.callback.IRequest;
-import com.late.core.net.callback.ISuccess;
-import com.late.core.ui.LoaderStyle;
+import com.late.core.ui.loader.LoaderStyle;
 
 import java.io.File;
 import java.util.WeakHashMap;

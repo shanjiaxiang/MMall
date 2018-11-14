@@ -7,6 +7,7 @@ import com.late.core.bottom.BottomItemFragment;
 import com.late.core.bottom.BottomTabBean;
 import com.late.core.bottom.ItemBuilder;
 import com.latte.ec.main.index.IndexFragment;
+import com.latte.ec.main.sort.SortFragment;
 
 import java.util.LinkedHashMap;
 
@@ -19,7 +20,7 @@ public class EcBottomFragment extends BaseBottomFragment {
     public LinkedHashMap<BottomTabBean, BottomItemFragment> setItems(ItemBuilder builder) {
         LinkedHashMap<BottomTabBean, BottomItemFragment> items = new LinkedHashMap <>();
         items.put(new BottomTabBean("{fa-home}","主页"), new IndexFragment());
-        items.put(new BottomTabBean("{fa-sort}","分类"), new IndexFragment());
+        items.put(new BottomTabBean("{fa-sort}","分类"), new SortFragment());
         items.put(new BottomTabBean("{fa-compass}","发现"), new IndexFragment());
         items.put(new BottomTabBean("{fa-shopping-cart}","购物车"), new IndexFragment());
         items.put(new BottomTabBean("{fa-user}","我的"), new IndexFragment());

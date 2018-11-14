@@ -8,7 +8,6 @@ import com.joanzapata.iconify.fonts.FontAwesomeModule;
 import com.late.core.net.interceptors.DebugInterceptor;
 import com.latte.ec.database.DatabaseManager;
 import com.latte.ec.icon.FontEcModule;
-
 /**
  * Created by Administrator on 2018\10\31 0031.
  */

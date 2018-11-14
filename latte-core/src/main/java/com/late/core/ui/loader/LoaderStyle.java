@@ -1,4 +1,4 @@
-package com.late.core.ui;
+package com.late.core.ui.loader;
 
 /**
  * 存储各种样式名称
