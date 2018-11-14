@@ -19,6 +19,8 @@ import com.late.core.net.callback.IError;
 import com.late.core.net.callback.IFailure;
 import com.late.core.net.callback.ISuccess;
 import com.late.core.util.log.LatteLogger;
+import com.late.core.wechat.LatteWeChat;
+import com.late.core.wechat.callbacks.IWechatSignInCallback;
 import com.latte.ec.R;
 
 /**
@@ -125,7 +127,12 @@ public class SignInFragment extends LatteFragment {
         mWechatSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                LatteWeChat.getInstance().onSignInCallback(new IWechatSignInCallback() {
+                    @Override
+                    public void onSignInSuccess(String userInfo) {
 
+                    }
+                }).signIn();
             }
         });
     }

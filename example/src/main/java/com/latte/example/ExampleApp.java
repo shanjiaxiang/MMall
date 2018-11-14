@@ -2,7 +2,6 @@ package com.latte.example;
 
 import android.app.Application;
 
-import com.diabin.fastec.example.R;
 import com.facebook.stetho.Stetho;
 import com.late.core.app.Latte;
 import com.joanzapata.iconify.fonts.FontAwesomeModule;
@@ -24,6 +23,8 @@ public class ExampleApp extends Application {
                 .withApiHost("http://127.0.0.1/")
                 .withDelayTime(1000)
                 .withInterceptor(new DebugInterceptor("index", R.raw.test))
+                .withWeChatAppId("")
+                .withWeChatSecret("")
                 .configure();
         initStetho();
         DatabaseManager.getInstance().init(this);

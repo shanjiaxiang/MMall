@@ -7,7 +7,7 @@ import com.latte.annotations.PayEntryGenerator;
  * Created by Administrator on 2018\11\13 0013.
  */
 @PayEntryGenerator(
-        packageName = "com.diabin.fastec.example",
+        packageName = "com.latte.example",
         payEntryTemplete = WXPayEntryTemplate.class
 )
 public interface WeChatPayEntry {

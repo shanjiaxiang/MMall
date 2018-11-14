@@ -7,7 +7,7 @@ import com.latte.annotations.AppRegisterGenerator;
  * Created by Administrator on 2018\11\13 0013.
  */
 @AppRegisterGenerator(
-        packageName = "com.diabin.fastec.example",
+        packageName = "com.latte.example",
         registerTemplate = AppRegisterTemplate.class
 )
 public interface AppRegisterEntry {

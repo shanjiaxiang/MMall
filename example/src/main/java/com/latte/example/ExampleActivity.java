@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.late.core.activities.ProxyActivity;
 import com.late.core.app.Latte;
-import com.diabin.fastec.example.R;
 import com.late.core.fragments.LatteFragment;
 import com.late.core.ui.launcher.ILauncherListener;
 import com.late.core.ui.launcher.OnLauncherFinishTag;

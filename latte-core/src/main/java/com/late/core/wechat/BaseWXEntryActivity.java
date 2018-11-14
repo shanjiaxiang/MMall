@@ -92,10 +92,6 @@ public abstract class BaseWXEntryActivity extends BaseWXActivity {
                 })
                 .build()
                 .get();
-
-
-
-
     }
 
 
