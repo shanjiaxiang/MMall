@@ -20,9 +20,9 @@ public class ExampleApp extends Application {
         Latte.init(this)
                 .withIcon(new FontAwesomeModule())
                 .withIcon(new FontEcModule())
-                .withApiHost("http://127.0.0.1/")
+                .withApiHost("http://mock.fulingjie.com/mock/api/")
                 .withDelayTime(1000)
-                .withInterceptor(new DebugInterceptor("index", R.raw.test))
+//                .withInterceptor(new DebugInterceptor("index", R.raw.test))
                 .withWeChatAppId("")
                 .withWeChatSecret("")
                 .configure();

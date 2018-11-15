@@ -102,6 +102,7 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/packagedAssets" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/packaged_res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/public_res" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/publish-proguard" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/res" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/rs" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/shaders" />
@@ -154,6 +155,7 @@
     <orderEntry type="library" name="com.github.niorgai:StatusBarCompat-2.1.4" level="project" />
     <orderEntry type="library" scope="TEST" name="com.android.support.test.espresso:espresso-core-3.0.2" level="project" />
     <orderEntry type="library" scope="TEST" name="javax.inject:javax.inject:1@jar" level="project" />
+    <orderEntry type="library" name="com.github.CymChad:BaseRecyclerViewAdapterHelper-2.9.40" level="project" />
     <orderEntry type="library" name="com.github.hotchemi:permissionsdispatcher-3.0.1" level="project" />
     <orderEntry type="library" name="com.android.support:support-vector-drawable-27.1.1" level="project" />
     <orderEntry type="library" name="android.arch.lifecycle:runtime-1.1.0" level="project" />

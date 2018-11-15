@@ -8,11 +8,18 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.widget.IconTextView;
 import com.late.core.bottom.BottomItemFragment;
+import com.late.core.net.RestClient;
+import com.late.core.net.callback.ISuccess;
+import com.late.core.ui.recycler.MultipleFields;
+import com.late.core.ui.recycler.MultipleItemEntity;
 import com.late.core.ui.refresh.RefreshHandler;
 import com.latte.ec.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2018\11\14 0014.
@@ -44,6 +51,9 @@ public class IndexFragment extends BottomItemFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
+        mRefreshHandler.firstPage("index.php");
+
+
     }
 
     @Override
@@ -55,6 +65,23 @@ public class IndexFragment extends BottomItemFragment {
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         viewBindId();
         mRefreshHandler = new RefreshHandler(mRefreshLayout);
+        RestClient.Builder()
+                .url("index.php")
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final IndexDataConverter converter = new IndexDataConverter();
+                        converter.setJsonData(response);
+                        final ArrayList<MultipleItemEntity> list = converter.convert();
+                        final String image = list.get(1).getField(MultipleFields.IMAGE_URL);
+                        Toast.makeText(getContext(), image, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .build()
+                .get();
+
+
+
 
     }
 

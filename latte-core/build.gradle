@@ -113,4 +113,7 @@ dependencies {
     //数据库依赖
     api 'org.greenrobot:greendao:3.2.2' // add library
     api 'org.greenrobot:greendao-generator:3.2.2'
+
+    //RecyclerView依赖
+    api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
 }

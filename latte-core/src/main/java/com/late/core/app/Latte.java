@@ -20,6 +20,7 @@ public final class Latte {
         return Configurator.getInstance().getLatteConfigs();
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T getConfiguration(Enum<ConfigType> key){
         return (T) getConfigurations().get(key);
     }
