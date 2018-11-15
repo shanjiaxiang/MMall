@@ -139,7 +139,6 @@ public abstract class BaseFragment extends Fragment implements ISupportFragment 
         super.setUserVisibleHint(isVisibleToUser);
         DELEGATE.setUserVisibleHint(isVisibleToUser);
     }
-
     @Override
     public void enqueueAction(Runnable runnable) {
         DELEGATE.enqueueAction(runnable);

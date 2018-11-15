@@ -28,11 +28,9 @@ public class Configurator {
 
     private static final Handler HANDLER = new Handler();
 
-
-
     //构造方法初始化，未配置完成
     private Configurator(){
-        LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), false);
+        LATTE_CONFIGS.put(ConfigType.CONFIG_READY, false);
         LATTE_CONFIGS.put(ConfigType.HANDLER, HANDLER);
     }
 
@@ -55,12 +53,12 @@ public class Configurator {
     public void configure(){
         initIcons();
         initLogger();
-        LATTE_CONFIGS.put(ConfigType.CONFIG_READY.name(), true);
+        LATTE_CONFIGS.put(ConfigType.CONFIG_READY, true);
     }
 
     //设置API
     public final Configurator withApiHost(String host){
-        LATTE_CONFIGS.put(ConfigType.API_HOST.name(), host);
+        LATTE_CONFIGS.put(ConfigType.API_HOST, host);
         return this;
     }
 
@@ -107,11 +105,6 @@ public class Configurator {
         return this;
     }
 
-    public final Configurator withHandler(Handler handler){
-        LATTE_CONFIGS.put(ConfigType.HANDLER, handler);
-        return this;
-    }
-
     //初始化Iconify
     private void initIcons(){
         if (ICONS.size() > 0){
@@ -135,11 +128,9 @@ public class Configurator {
     }
 
     //获取某一项配置值
+    @SuppressWarnings("unchecked")
     final <T> T getConfiguration(Enum<ConfigType> key){
         checkConfiguration();
         return (T) LATTE_CONFIGS.get(key.name());
     }
-
-
-
 }

@@ -1,6 +1,5 @@
 package com.latte.ec.main.index;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,26 +8,35 @@ import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.joanzapata.iconify.widget.IconTextView;
 import com.late.core.bottom.BottomItemFragment;
+import com.late.core.net.RestClient;
+import com.late.core.net.callback.ISuccess;
+import com.late.core.ui.recycler.MultipleFields;
+import com.late.core.ui.recycler.MultipleItemEntity;
 import com.late.core.ui.refresh.RefreshHandler;
 import com.latte.ec.R;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2018\11\14 0014.
  */
 
 public class IndexFragment extends BottomItemFragment {
-
-    RecyclerView mRecyclerView = null;
+    RecyclerView mRecycleView = null;
     SwipeRefreshLayout mRefreshLayout = null;
     Toolbar mToolbar = null;
-    IconTextView mIconScan = null;
+    IconTextView mScanIcon = null;
     AppCompatEditText mSearchView = null;
-    IconTextView mIconMessage = null;
+    IconTextView mMessageIcon = null;
 
     private RefreshHandler mRefreshHandler = null;
+
+
+
 
     private void initRefreshLayout(){
         mRefreshLayout.setColorSchemeResources(
@@ -43,6 +51,9 @@ public class IndexFragment extends BottomItemFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
+        mRefreshHandler.firstPage("index.php");
+
+
     }
 
     @Override
@@ -52,20 +63,34 @@ public class IndexFragment extends BottomItemFragment {
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        bindViewId();
+        viewBindId();
         mRefreshHandler = new RefreshHandler(mRefreshLayout);
+        RestClient.Builder()
+                .url("index.php")
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        final IndexDataConverter converter = new IndexDataConverter();
+                        converter.setJsonData(response);
+                        final ArrayList<MultipleItemEntity> list = converter.convert();
+                        final String image = list.get(1).getField(MultipleFields.IMAGE_URL);
+                        Toast.makeText(getContext(), image, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .build()
+                .get();
+
+
+
+
     }
 
-
-
-
-
-    private void bindViewId(){
-        mRecyclerView = $(R.id.rv_index);
+    private void viewBindId(){
+        mRecycleView = $(R.id.rv_index);
         mRefreshLayout = $(R.id.srl_index);
         mToolbar = $(R.id.tb_index);
-        mIconScan = $(R.id.icon_index_scan);
+        mScanIcon = $(R.id.icon_index_scan);
         mSearchView = $(R.id.et_search_view);
-        mIconMessage = $(R.id.icon_index_message);
+        mMessageIcon = $(R.id.icon_index_message);
     }
 }

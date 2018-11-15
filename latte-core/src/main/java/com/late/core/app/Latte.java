@@ -12,7 +12,7 @@ import java.util.HashMap;
 public final class Latte {
 
     public static Configurator init(Context context){
-        getConfigurations().put(ConfigType.APPLICATION_CONTEXT.name(), context.getApplicationContext());
+        getConfigurations().put(ConfigType.APPLICATION_CONTEXT, context.getApplicationContext());
         return Configurator.getInstance();
     }
 
@@ -20,23 +20,24 @@ public final class Latte {
         return Configurator.getInstance().getLatteConfigs();
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T getConfiguration(Enum<ConfigType> key){
         return (T) getConfigurations().get(key);
     }
 
     public static Context getApplication(){
-        return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT.name());
+        return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT);
     }
 
     public static Context getApplicationContext(){
-        return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT.name());
+        return (Context) getConfigurations().get(ConfigType.APPLICATION_CONTEXT);
     }
 
     public static Configurator getConfigurator(){
         return Configurator.getInstance();
     }
 
-    public static Handler getHandler(){
+    public static Handler getHander(){
         return getConfiguration(ConfigType.HANDLER);
     }
 

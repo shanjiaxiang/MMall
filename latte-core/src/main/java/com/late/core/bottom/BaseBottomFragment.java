@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import me.yokeyword.fragmentation.ISupportFragment;
+import me.yokeyword.fragmentation.SupportFragment;
 
 /**
  * Created by Administrator on 2018\11\14 0014.
