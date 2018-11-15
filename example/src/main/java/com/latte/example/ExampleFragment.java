@@ -3,29 +3,16 @@ package com.latte.example;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.late.core.app.ConfigType;
-import com.late.core.app.Latte;
 import com.late.core.fragments.LatteFragment;
 import com.late.core.net.RestClient;
 import com.late.core.net.callback.IError;
 import com.late.core.net.callback.IFailure;
 import com.late.core.net.callback.IRequest;
 import com.late.core.net.callback.ISuccess;
-import com.late.core.ui.LoaderStyle;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import okhttp3.Interceptor;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import okio.BufferedSink;
+import com.late.core.ui.loader.LoaderStyle;
 
 /**
  * Created by Administrator on 2018\11\1 0001.

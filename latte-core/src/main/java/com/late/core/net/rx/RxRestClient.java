@@ -4,17 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.late.core.net.HttpMethod;
-import com.late.core.net.RestClientBuilder;
 import com.late.core.net.RestCreator;
-import com.late.core.net.RestService;
-import com.late.core.net.callback.IError;
-import com.late.core.net.callback.IFailure;
-import com.late.core.net.callback.IRequest;
-import com.late.core.net.callback.ISuccess;
-import com.late.core.net.callback.RequestCallbacks;
-import com.late.core.net.download.DownloadHandler;
-import com.late.core.ui.LatteLoader;
-import com.late.core.ui.LoaderStyle;
+import com.late.core.ui.loader.LatteLoader;
+import com.late.core.ui.loader.LoaderStyle;
 
 import java.io.File;
 import java.util.WeakHashMap;
@@ -24,8 +16,6 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
 
 /**
  * Created by Administrator on 2018\11\2 0002.

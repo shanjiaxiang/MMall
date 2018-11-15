@@ -1,4 +1,4 @@
-package com.late.core.ui;
+package com.late.core.ui.loader;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatDialog;
