@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -32,7 +33,7 @@ public abstract class BaseBottomFragment extends LatteFragment implements View.O
     private int mCurrentFragment = 0;
     private int mIndexFragment = 0;
     private int mClickedColor = Color.RED;
-    LinearLayoutCompat mBottomBar = $(R.id.bottom_bar);
+    LinearLayoutCompat mBottomBar = null;
 
 
     public abstract LinkedHashMap <BottomTabBean, BottomItemFragment> setItems(ItemBuilder builder);
@@ -70,6 +71,7 @@ public abstract class BaseBottomFragment extends LatteFragment implements View.O
 
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        mBottomBar = $(R.id.bottom_bar);
         final int size = ITEMS.size();
         for (int i = 0; i < size; i++) {
             LayoutInflater.from(getContext()).inflate(R.layout.bottom_item_text_layout, mBottomBar);
@@ -88,7 +90,7 @@ public abstract class BaseBottomFragment extends LatteFragment implements View.O
                 itemTitle.setTextColor(mClickedColor);
             }
         }
-        final SupportFragment[] fragmentArray = ITEM_FRAGMENT.toArray(new SupportFragment[size]);
+        final ISupportFragment[] fragmentArray = ITEM_FRAGMENT.toArray(new ISupportFragment[size]);
         getSupportDelegate().loadMultipleRootFragment(R.id.bottom_bar_fragment_container, mIndexFragment, fragmentArray);
     }
 
