@@ -31,42 +31,42 @@ public class ExampleFragment extends LatteFragment {
 //        testRestClientBuild();
     }
 
-    public void testRestClientBuild(){
-        RestClient.Builder()
-                .url("http://127.0.0.1/index")
-                .loader( LoaderStyle.BallBeatIndicator, getContext())
-                .onRequest(new IRequest() {
-                    @Override
-                    public void onRequestStart() {
-
-                    }
-
-                    @Override
-                    public void onRequestEnd() {
-
-                    }
-                })
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-                        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .failure(new IFailure() {
-                    @Override
-                    public void onFailure() {
-
-                    }
-                })
-                .error(new IError() {
-                    @Override
-                    public void onError(int code, String msg) {
-
-                    }
-                })
-                .build()
-                .get();
-    }
+//    public void testRestClientBuild(){
+//        RestClient.Builder()
+//                .url("http://127.0.0.1/index")
+//                .loader( LoaderStyle.BallBeatIndicator, getContext())
+//                .onRequest(new IRequest() {
+//                    @Override
+//                    public void onRequestStart() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onRequestEnd() {
+//
+//                    }
+//                })
+//                .success(new ISuccess() {
+//                    @Override
+//                    public void onSuccess(String response) {
+//                        Toast.makeText(getContext(), response, Toast.LENGTH_SHORT).show();
+//                    }
+//                })
+//                .failure(new IFailure() {
+//                    @Override
+//                    public void onFailure() {
+//
+//                    }
+//                })
+//                .error(new IError() {
+//                    @Override
+//                    public void onError(int code, String msg) {
+//
+//                    }
+//                })
+//                .build()
+//                .get();
+//    }
 
 
 
