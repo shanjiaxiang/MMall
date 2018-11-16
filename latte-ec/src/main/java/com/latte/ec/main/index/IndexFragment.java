@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.late.core.net.RestClient;
 import com.late.core.net.callback.ISuccess;
 import com.late.core.ui.recycler.MultipleFields;
 import com.late.core.ui.recycler.MultipleItemEntity;
+import com.late.core.ui.refresh.PagingBean;
 import com.late.core.ui.refresh.RefreshHandler;
 import com.latte.ec.R;
 
@@ -35,8 +37,25 @@ public class IndexFragment extends BottomItemFragment {
 
     private RefreshHandler mRefreshHandler = null;
 
+    @Override
+    public Object setLayout() {
+        return R.layout.fragment_index;
+    }
 
+    @Override
+    public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
+        viewBindId();
+        mRefreshHandler = new RefreshHandler(mRefreshLayout, mRecycleView, new IndexDataConverter(), new PagingBean());
 
+    }
+
+    @Override
+    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
+        super.onLazyInitView(savedInstanceState);
+        initRefreshLayout();
+        initRecyclerView();
+        mRefreshHandler.firstPage("index.php");
+    }
 
     private void initRefreshLayout(){
         mRefreshLayout.setColorSchemeResources(
@@ -46,44 +65,12 @@ public class IndexFragment extends BottomItemFragment {
         );
         mRefreshLayout.setProgressViewOffset(true, 120, 300);
     }
-
-    @Override
-    public void onLazyInitView(@Nullable Bundle savedInstanceState) {
-        super.onLazyInitView(savedInstanceState);
-        initRefreshLayout();
-        mRefreshHandler.firstPage("index.php");
-
-
+    private void initRecyclerView(){
+        final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
+        mRecycleView.setLayoutManager(manager);
     }
 
-    @Override
-    public Object setLayout() {
-        return R.layout.fragment_index;
-    }
 
-    @Override
-    public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
-        viewBindId();
-        mRefreshHandler = new RefreshHandler(mRefreshLayout);
-        RestClient.Builder()
-                .url("index.php")
-                .success(new ISuccess() {
-                    @Override
-                    public void onSuccess(String response) {
-                        final IndexDataConverter converter = new IndexDataConverter();
-                        converter.setJsonData(response);
-                        final ArrayList<MultipleItemEntity> list = converter.convert();
-                        final String image = list.get(1).getField(MultipleFields.IMAGE_URL);
-                        Toast.makeText(getContext(), image, Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .build()
-                .get();
-
-
-
-
-    }
 
     private void viewBindId(){
         mRecycleView = $(R.id.rv_index);
