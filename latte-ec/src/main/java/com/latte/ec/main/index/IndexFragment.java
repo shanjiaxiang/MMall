@@ -3,25 +3,20 @@ package com.latte.ec.main.index;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Toast;
-
 import com.joanzapata.iconify.widget.IconTextView;
 import com.late.core.bottom.BottomItemFragment;
-import com.late.core.net.RestClient;
-import com.late.core.net.callback.ISuccess;
-import com.late.core.ui.recycler.MultipleFields;
-import com.late.core.ui.recycler.MultipleItemEntity;
+import com.late.core.ui.recycler.BaseDecoration;
 import com.late.core.ui.refresh.PagingBean;
 import com.late.core.ui.refresh.RefreshHandler;
 import com.latte.ec.R;
-
-import java.util.ArrayList;
+import com.latte.ec.main.EcBottomFragment;
 
 /**
  * Created by Administrator on 2018\11\14 0014.
@@ -68,6 +63,12 @@ public class IndexFragment extends BottomItemFragment {
     private void initRecyclerView(){
         final GridLayoutManager manager = new GridLayoutManager(getContext(), 4);
         mRecycleView.setLayoutManager(manager);
+        mRecycleView.addItemDecoration(BaseDecoration.create(
+                ContextCompat.getColor(getContext(), R.color.app_background), 5));
+        final EcBottomFragment ecBottomFragment = getLatteParentFragment();
+
+        mRecycleView.addOnItemTouchListener(IndexItemClickListener.create(ecBottomFragment));
+//        mRecycleView.set
     }
 
 

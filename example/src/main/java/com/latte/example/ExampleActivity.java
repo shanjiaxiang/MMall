@@ -20,6 +20,8 @@ import com.latte.ec.sign.ISignListener;
 import com.latte.ec.sign.SignInFragment;
 import com.latte.ec.sign.SignUpFragment;
 
+import qiu.niorgai.StatusBarCompat;
+
 
 public class ExampleActivity extends ProxyActivity implements
         ISignListener,
@@ -32,6 +34,7 @@ public class ExampleActivity extends ProxyActivity implements
             actionBar.hide();
         }
         Latte.getConfigurator().withWeChatActivity(this);
+        StatusBarCompat.translucentStatusBar(this, true);
     }
 
     @Override

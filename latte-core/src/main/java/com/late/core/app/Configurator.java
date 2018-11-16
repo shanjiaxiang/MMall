@@ -7,6 +7,8 @@ import android.util.Log;
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
 import com.late.core.util.log.LatteLogger;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,6 +56,7 @@ public class Configurator {
         initIcons();
         initLogger();
         LATTE_CONFIGS.put(ConfigType.CONFIG_READY, true);
+
     }
 
     //设置API
