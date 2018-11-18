@@ -6,6 +6,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 
+import com.late.core.fragments.LatteFragment;
 import com.late.core.ui.recycler.ItemType;
 import com.late.core.ui.recycler.MultipleFields;
 import com.late.core.ui.recycler.MultipleItemEntity;
@@ -13,8 +14,11 @@ import com.late.core.ui.recycler.MultipleRecyclerAdapter;
 import com.late.core.ui.recycler.MultipleViewHolder;
 import com.latte.ec.R;
 import com.latte.ec.main.sort.SortFragment;
+import com.latte.ec.main.sort.content.ContentFragment;
 
 import java.util.List;
+
+import me.yokeyword.fragmentation.SupportHelper;
 
 /**
  * Created by Administrator on 2018\11\16 0016.
@@ -57,7 +61,7 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter{
                             mPrePosition = currentPosition;
 
                             final int contentId = getData().get(currentPosition).getField(MultipleFields.ID);
-
+                            showContent(contentId);
                         }
                     }
                 });
@@ -75,9 +79,23 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter{
                 }
 
                 holder.setText(R.id.tv_vertical_item_name, text);
-
-
+                break;
+            default:
                 break;
         }
     }
+
+    private void showContent(int contentId){
+        final ContentFragment fragment = ContentFragment.getInstance(contentId);
+        swtichContent(fragment);
+    }
+
+    private void swtichContent(ContentFragment fragment){
+        final LatteFragment contentFragment = SupportHelper.findFragment(
+                FRAGMENT.getChildFragmentManager(), ContentFragment.class);
+        if (contentFragment != null) {
+            contentFragment.getSupportDelegate().replaceFragment(fragment, false);
+        }
+    }
+
 }

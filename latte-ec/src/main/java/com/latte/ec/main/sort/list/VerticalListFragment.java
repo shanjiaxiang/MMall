@@ -59,11 +59,9 @@ public class VerticalListFragment extends LatteFragment {
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                        Log.d("onSuccess", response);
                         final List<MultipleItemEntity> data =
                                 new VerticalListDataConverter().setJsonData(response).convert();
                         final SortFragment fragment = (SortFragment) getParentFragment();
-                        Log.d("onSuccess", fragment.getTag());
                         final SortRecyclerAdapter adapter = new SortRecyclerAdapter(data, fragment);
                         mRecyclerView.setAdapter(adapter);
                     }
