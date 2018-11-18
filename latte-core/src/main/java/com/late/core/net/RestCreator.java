@@ -63,9 +63,11 @@ public class RestCreator {
                     BUILDER.addInterceptor(interceptor);
                 }
             } else if (INTERCEPTORS == null){
-                Toast.makeText(Latte.getApplication(), "INTERCEPTORS为null", Toast.LENGTH_SHORT).show();
+                Log.d("Interceptor", "INTERCEPTORS为null");
+//                Toast.makeText(Latte.getApplication(), "INTERCEPTORS为null", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(Latte.getApplication(), "INTERCEPTORS为empty", Toast.LENGTH_SHORT).show();
+                Log.d("Interceptor", "INTERCEPTORS为empty");
+//                Toast.makeText(Latte.getApplication(), "INTERCEPTORS为empty", Toast.LENGTH_SHORT).show();
             }
             return BUILDER;
         }

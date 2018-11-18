@@ -3,6 +3,7 @@ package com.latte.ec.main.sort.list;
 import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
 
 import com.late.core.ui.recycler.ItemType;
@@ -22,6 +23,7 @@ import java.util.List;
 public class SortRecyclerAdapter extends MultipleRecyclerAdapter{
 
     private final SortFragment FRAGMENT;
+    private int mPrePosition = 0;
 
     protected SortRecyclerAdapter(List<MultipleItemEntity> data, SortFragment fragment) {
         super(data);
@@ -36,17 +38,30 @@ public class SortRecyclerAdapter extends MultipleRecyclerAdapter{
             case ItemType.VERTICAL_MENU_LIST:
                 final String text = entity.getField(MultipleFields.TEXT);
                 final boolean isClicked = entity.getField(MultipleFields.TAG);
-                final AppCompatTextView name = entity.getField(MultipleFields.NAME);
+                final AppCompatTextView name = holder.getView(R.id.tv_vertical_item_name);
                 final View line = holder.getView(R.id.view_line);
                 //整个横条
                 final View itemView = holder.itemView;
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        final int currentPosition = holder.getAdapterPosition();
+                        if (mPrePosition != currentPosition){
+                            //还原上一个
+                            getData().get(mPrePosition).setField(MultipleFields.TAG, false);
+                            notifyItemChanged(mPrePosition);
 
+                            //更新选中的item
+                            entity.setField(MultipleFields.TAG, true);
+                            notifyItemChanged(currentPosition);
+                            mPrePosition = currentPosition;
+
+                            final int contentId = getData().get(currentPosition).getField(MultipleFields.ID);
+
+                        }
                     }
                 });
-
+                Log.d("convert", "convert");
                 if (!isClicked) {
                     line.setVisibility(View.INVISIBLE);
                     name.setTextColor(ContextCompat.getColor(mContext, R.color.we_chat_black));

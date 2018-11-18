@@ -17,6 +17,14 @@ public class ContentFragment extends LatteFragment {
     private static final String ARG_CONTENT_ID = "CONTENT_ID";
     private int mContentId = -1;
 
+    public static ContentFragment getInstance(int contentId){
+        final Bundle args = new Bundle();
+        args.putInt(ARG_CONTENT_ID, contentId);
+        ContentFragment fragment = new ContentFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,14 +32,6 @@ public class ContentFragment extends LatteFragment {
         if (args != null){
             mContentId = args.getInt(ARG_CONTENT_ID);
         }
-    }
-
-    public static ContentFragment getInstance(int contentId){
-        final Bundle args = new Bundle();
-        args.putInt(ARG_CONTENT_ID, contentId);
-        ContentFragment fragment = new ContentFragment();
-        fragment.setArguments(args);
-        return fragment;
     }
 
     @Override

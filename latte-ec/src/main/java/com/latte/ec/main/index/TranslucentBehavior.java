@@ -62,7 +62,8 @@ public class TranslucentBehavior extends CoordinatorLayout.Behavior <Toolbar> {
         if (mDistanceY > 0 && mDistanceY <= targetHeight) {
             final float scale = (float) mDistanceY / targetHeight;
             final float alpha = scale * 255;
-            child.setBackgroundColor(Color.argb((int) alpha, RGB_VALUE.red(), RGB_VALUE.green(), RGB_VALUE.blue()));
+            child.setBackgroundColor(
+                    Color.argb((int) alpha, RGB_VALUE.red(), RGB_VALUE.green(), RGB_VALUE.blue()));
         }else if (mDistanceY > targetHeight){
             child.setBackgroundColor(Color.rgb(RGB_VALUE.red(), RGB_VALUE.green(), RGB_VALUE.blue()));
         }

@@ -49,7 +49,7 @@ public class IndexFragment extends BottomItemFragment {
         super.onLazyInitView(savedInstanceState);
         initRefreshLayout();
         initRecyclerView();
-        mRefreshHandler.firstPage("index.php");
+        mRefreshHandler.firstPage("index.php", getContext());
     }
 
     private void initRefreshLayout(){

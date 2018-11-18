@@ -1,5 +1,6 @@
 package com.late.core.ui.refresh;
 
+import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -60,11 +61,11 @@ public class RefreshHandler implements
         }, 2000);
     }
 
-    public void firstPage(String url){
+    public void firstPage(String url, Context context){
         BEAN.setmDelayed(1000);
         RestClient.Builder()
                 .url(url)
-                .loader(Latte.getApplicationContext())
+                .loader(context)
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {

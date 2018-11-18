@@ -5,7 +5,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.late.core.fragments.LatteFragment;
 import com.late.core.net.RestClient;
@@ -26,7 +29,6 @@ public class VerticalListFragment extends LatteFragment {
 
     private void bindViewId(){
         mRecyclerView = $(R.id.rv_vertical_menu_list);
-        initRecyclerView();
     }
 
     private void initRecyclerView(){
@@ -45,6 +47,7 @@ public class VerticalListFragment extends LatteFragment {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         bindViewId();
+        initRecyclerView();
     }
 
     @Override
@@ -56,8 +59,11 @@ public class VerticalListFragment extends LatteFragment {
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String response) {
-                        final List<MultipleItemEntity> data =  new VerticalListDataConverter().setJsonData(response).convert();
+                        Log.d("onSuccess", response);
+                        final List<MultipleItemEntity> data =
+                                new VerticalListDataConverter().setJsonData(response).convert();
                         final SortFragment fragment = (SortFragment) getParentFragment();
+                        Log.d("onSuccess", fragment.getTag());
                         final SortRecyclerAdapter adapter = new SortRecyclerAdapter(data, fragment);
                         mRecyclerView.setAdapter(adapter);
                     }

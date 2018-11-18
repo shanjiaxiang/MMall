@@ -85,11 +85,11 @@ public class RestClient {
             REQUEST.onRequestStart();
         }
         Log.d("show", "request style: " + LOADER_STYLE);
-//        if (LOADER_STYLE != null){
-//            LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
-//        } else {
-//            LatteLoader.showLoading(CONTEXT, LoaderStyle.BallBeatIndicator);
-//        }
+        if (LOADER_STYLE != null){
+            LatteLoader.showLoading(CONTEXT, LOADER_STYLE);
+        } else {
+            LatteLoader.showLoading(CONTEXT, LoaderStyle.BallBeatIndicator);
+        }
 
         switch (method){
             case GET:
