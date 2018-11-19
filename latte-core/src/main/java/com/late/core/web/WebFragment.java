@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.webkit.WebView;
 
+import com.late.core.app.ConfigType;
+import com.late.core.app.Latte;
 import com.late.core.fragments.LatteFragment;
 import com.late.core.web.route.RouteKeys;
 
@@ -47,7 +49,9 @@ public abstract class WebFragment extends LatteFragment implements IWebViewIniti
                 mWebView = initializer.initWebView(mWebView);
                 mWebView.setWebViewClient(initializer.initWebViewClient());
                 mWebView.setWebChromeClient(initializer.initWebChromeClient());
-                mWebView.addJavascriptInterface(LatteWebInterface.create(this), "latte");
+
+                final String name = Latte.getConfiguration(ConfigType.JAVASCRIPT_INTERFACE);
+                mWebView.addJavascriptInterface(LatteWebInterface.create(this), name);
                 mIsWebViewAvailable = true;
             } else {
                 throw new NullPointerException("WebView Initializer is null!");

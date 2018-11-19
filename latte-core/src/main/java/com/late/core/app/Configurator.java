@@ -2,11 +2,14 @@ package com.late.core.app;
 
 import android.app.Activity;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.joanzapata.iconify.IconFontDescriptor;
 import com.joanzapata.iconify.Iconify;
 import com.late.core.util.log.LatteLogger;
+import com.late.core.web.event.Event;
+import com.late.core.web.event.EventManager;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
@@ -105,6 +108,17 @@ public class Configurator {
 
     public final Configurator withWeChatActivity(Activity activity){
         LATTE_CONFIGS.put(ConfigType.ACTIVITY_WECHAT, activity);
+        return this;
+    }
+
+    public final Configurator withJavascriptInterface(@NonNull String name){
+        LATTE_CONFIGS.put(ConfigType.JAVASCRIPT_INTERFACE, name);
+        return this;
+    }
+
+    public final Configurator withWebEvent(@NonNull String name, @NonNull Event event){
+        final EventManager manager = EventManager.getIntance();
+        manager.addEvent(name, event);
         return this;
     }
 

@@ -15,6 +15,12 @@ import com.late.core.web.route.Router;
 
 public class WebFragmentImpl extends WebFragment {
 
+    private IPageLoadListener mIPageLoadListener = null;
+
+    public void setPageLoadListener(IPageLoadListener listener){
+        this.mIPageLoadListener = listener;
+    }
+
     public static WebFragmentImpl create(String url) {
         final Bundle args = new Bundle();
         args.putString(RouteKeys.URL.name(), url);
@@ -51,6 +57,7 @@ public class WebFragmentImpl extends WebFragment {
     @Override
     public WebViewClient initWebViewClient() {
         final WebViewClientImpl client = new WebViewClientImpl(this);
+        client.setPageLoadListener(mIPageLoadListener);
         return client;
     }
 

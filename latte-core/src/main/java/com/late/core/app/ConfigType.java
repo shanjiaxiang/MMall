@@ -14,5 +14,6 @@ public enum ConfigType {
     WECHAT_APP_ID,
     WECHAT_APP_CECRET,
     ACTIVITY_WECHAT,
-    HANDLER
+    HANDLER,
+    JAVASCRIPT_INTERFACE
 }

@@ -1,15 +1,22 @@
 package com.late.core.web.event;
 
 import android.content.Context;
+import android.webkit.WebView;
 
 import com.late.core.fragments.LatteFragment;
+import com.late.core.web.WebFragment;
 
 public abstract class Event implements IEvent {
 
     private Context mContext = null;
     private String mAction = null;
-    private LatteFragment mFragment = null;
+    private WebFragment mFragment = null;
     private String mUrl = null;
+    private WebView mWebView = null;
+
+    public WebView getWebView(){
+        return mFragment.getWebView();
+    }
 
     public Context getContext() {
         return mContext;
@@ -27,11 +34,11 @@ public abstract class Event implements IEvent {
         this.mAction = mAction;
     }
 
-    public LatteFragment getFragment() {
+    public WebFragment getFragment() {
         return mFragment;
     }
 
-    public void setFragment(LatteFragment mFragment) {
+    public void setFragment(WebFragment mFragment) {
         this.mFragment = mFragment;
     }
 

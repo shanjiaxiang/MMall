@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.late.core.bottom.BottomItemFragment;
 import com.late.core.fragments.LatteFragment;
+import com.late.core.web.IPageLoadListener;
 import com.late.core.web.WebFragmentImpl;
 import com.latte.ec.R;
 
@@ -31,6 +32,17 @@ public class DiscoverFragment extends BottomItemFragment {
     public void onLazyInitView(@Nullable Bundle savedInstanceState) {
         super.onLazyInitView(savedInstanceState);
         final WebFragmentImpl fragment = WebFragmentImpl.create("index.html");
+        fragment.setPageLoadListener(new IPageLoadListener() {
+            @Override
+            public void onLoadStart() {
+
+            }
+
+            @Override
+            public void onLoadEnd() {
+
+            }
+        });
         fragment.setTopFragment(this.getLatteParentFragment());
         getSupportDelegate().loadRootFragment(R.id.web_discovery_container, fragment);
     }
