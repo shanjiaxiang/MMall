@@ -24,22 +24,28 @@ import com.latte.ec.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.WeakHashMap;
 
 /**
  * Created by Administrator on 2018\11\19 0019.
  */
 
-public class ShopCartFragment extends BottomItemFragment implements ISuccess {
+public class ShopCartFragment extends BottomItemFragment implements ISuccess,ICartItemListener {
     private RecyclerView mRecyclerView = null;
     private ShopCartAdapter adapter = null;
     private IconTextView iconSelectedAll = null;
     private AppCompatTextView tvRemoveSelectedItem = null;
     private AppCompatTextView tvClearAllSelectedItem = null;
     private ViewStubCompat mViewStub = null;
+    private AppCompatTextView mTvTotalPrice = null;
+    private AppCompatTextView mTvPay = null;
+
+
 
     //购物车数量标记
     private int mCurrentCount = 0;
     private int mTotalCount = 0;
+    private double mTotalPrice = 0.0;
 
     private void bindViewId() {
         mRecyclerView = $(R.id.rv_shop_cart);
@@ -47,6 +53,8 @@ public class ShopCartFragment extends BottomItemFragment implements ISuccess {
         tvRemoveSelectedItem = $(R.id.tv_top_shop_cart_remove_selected);
         tvClearAllSelectedItem = $(R.id.tv_top_shop_cart_clear);
         mViewStub = $(R.id.stub_no_item);
+        mTvTotalPrice = $(R.id.tv_shop_cart_total);
+        mTvPay = $(R.id.tv_shop_cart_pay);
     }
 
     private void setClick() {
@@ -114,6 +122,38 @@ public class ShopCartFragment extends BottomItemFragment implements ISuccess {
                 checkItemCount();
             }
         });
+        mTvPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+    }
+
+    //创建订单，注意，和支付是没有关系的
+    private void createOrder(){
+        final String orderUrl = "";
+        final WeakHashMap<String, Object> orderParams = new WeakHashMap<>();
+        orderParams.put("userid", "");
+        orderParams.put("amount", 0.01);
+        orderParams.put("comment", "测试支付");
+        orderParams.put("type",1);
+        orderParams.put("ordertype", 0);
+        orderParams.put("isanonymous", true);
+        orderParams.put("followeduser", 0);
+        RestClient.Builder()
+                .url(orderUrl)
+                .params(orderParams)
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String response) {
+                        //进行具体的支付
+                    }
+                })
+                .build()
+                .post();
+
+
     }
 
     private void checkItemCount(){
@@ -162,9 +202,20 @@ public class ShopCartFragment extends BottomItemFragment implements ISuccess {
                 new ShopCartDataConverter().setJsonData(response).convert();
 
         adapter = new ShopCartAdapter(dataList);
+        adapter.setCartItemListener(this);
         final LinearLayoutManager manager = new LinearLayoutManager(getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
+        mTotalPrice = adapter.getTotalPrice();
+        mTvTotalPrice.setText(String.valueOf(mTotalPrice));
         checkItemCount();
     }
+
+    @Override
+    public void onItemClick(double itemTotalPrice) {
+        final double price = adapter.getTotalPrice();
+        mTvTotalPrice.setText(String.valueOf(price));
+    }
+
+
 }

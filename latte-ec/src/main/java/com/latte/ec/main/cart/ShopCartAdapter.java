@@ -26,21 +26,38 @@ import java.util.List;
 public class ShopCartAdapter extends MultipleRecyclerAdapter {
 
     private boolean mIsSelectedAll = false;
+    private ICartItemListener mCartItemListener = null;
+
+    private double mTotalPrice = 0.0;
 
     private static final RequestOptions OPTIONS = new RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .centerCrop()
             .dontAnimate();
 
-    protected ShopCartAdapter(List <MultipleItemEntity> data) {
+    protected ShopCartAdapter(List<MultipleItemEntity> data) {
         super(data);
-
+        //初始化总价
+        for (MultipleItemEntity entity : data) {
+            final double price = entity.getField(ShopCartItemFields.PRICE);
+            final int count = entity.getField(ShopCartItemFields.COUNT);
+            final double total = price * count;
+            mTotalPrice = mTotalPrice + total;
+        }
         //添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
     }
 
+    public double getTotalPrice(){
+        return mTotalPrice;
+    }
+
     public void setIsSelectedAll(boolean isSelectedAll) {
         mIsSelectedAll = isSelectedAll;
+    }
+
+    public void setCartItemListener(ICartItemListener listener) {
+        this.mCartItemListener = listener;
     }
 
     @Override
@@ -116,7 +133,7 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                         final int currentCount = entity.getField(ShopCartItemFields.COUNT);
                         if (Integer.parseInt(tvCount.getText().toString()) > 1) {
                             RestClient.Builder()
-                                    .url("")
+                                    .url("shop_cart_count.php")
                                     .loader(mContext)
                                     .params("count", currentCount)
                                     .success(new ISuccess() {
@@ -124,7 +141,13 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                                         public void onSuccess(String response) {
                                             int countNum = Integer.parseInt(tvCount.getText().toString());
                                             --countNum;
-                                            tvCount.setTag(String.valueOf(countNum));
+                                            tvCount.setText(String.valueOf(countNum));
+
+                                            if (mCartItemListener != null){
+                                                mTotalPrice = mTotalPrice - price;
+                                                final double itemTotal = price * countNum;
+                                                mCartItemListener.onItemClick(itemTotal);
+                                            }
 
                                         }
                                     })
@@ -133,6 +156,33 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                         }
 //
                     }
+                });
+                iconPlus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        RestClient.Builder()
+                                .url("shop_cart_count.php")
+                                .loader(mContext)
+                                .params("count", currentCount)
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        int countNum = Integer.parseInt(tvCount.getText().toString());
+                                        ++countNum;
+                                        tvCount.setText(String.valueOf(countNum));
+
+                                        if (mCartItemListener != null){
+                                            mTotalPrice = mTotalPrice + price;
+                                            final double itemTotal = price * countNum;
+                                            mCartItemListener.onItemClick(itemTotal);
+                                        }
+                                    }
+                                })
+                                .build()
+                                .post();
+                    }
+//
                 });
 
                 break;
