@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
 
 import com.bumptech.glide.Glide;
@@ -11,6 +12,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.late.core.app.Latte;
+import com.late.core.net.RestClient;
+import com.late.core.net.callback.ISuccess;
 import com.late.core.ui.recycler.MultipleFields;
 import com.late.core.ui.recycler.MultipleItemEntity;
 import com.late.core.ui.recycler.MultipleRecyclerAdapter;
@@ -29,14 +32,14 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
             .centerCrop()
             .dontAnimate();
 
-    protected ShopCartAdapter(List<MultipleItemEntity> data) {
+    protected ShopCartAdapter(List <MultipleItemEntity> data) {
         super(data);
 
         //添加购物车item布局
         addItemType(ShopCartItemType.SHOP_CART_ITEM, R.layout.item_shop_cart);
     }
 
-    public void setIsSelectedAll(boolean isSelectedAll){
+    public void setIsSelectedAll(boolean isSelectedAll) {
         mIsSelectedAll = isSelectedAll;
     }
 
@@ -53,6 +56,9 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                 final int count = entity.getField(ShopCartItemFields.COUNT);
                 final double price = entity.getField(ShopCartItemFields.PRICE);
 
+//                final int position = entity.getField(ShopCartItemFields.POSITION);
+//                Log.d("shopcart:", "item position:" + position);
+//                Log.d("shopcart:", "item title:" + title);
 
 
                 //取出所有控件
@@ -100,6 +106,32 @@ public class ShopCartAdapter extends MultipleRecyclerAdapter {
                                     ContextCompat.getColor(Latte.getApplicationContext(), R.color.app_main));
                             entity.setField(ShopCartItemFields.IS_SELECTED, true);
                         }
+                    }
+                });
+
+                //添加加减事件
+                iconMinus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final int currentCount = entity.getField(ShopCartItemFields.COUNT);
+                        if (Integer.parseInt(tvCount.getText().toString()) > 1) {
+                            RestClient.Builder()
+                                    .url("")
+                                    .loader(mContext)
+                                    .params("count", currentCount)
+                                    .success(new ISuccess() {
+                                        @Override
+                                        public void onSuccess(String response) {
+                                            int countNum = Integer.parseInt(tvCount.getText().toString());
+                                            --countNum;
+                                            tvCount.setTag(String.valueOf(countNum));
+
+                                        }
+                                    })
+                                    .build()
+                                    .post();
+                        }
+//
                     }
                 });
 
