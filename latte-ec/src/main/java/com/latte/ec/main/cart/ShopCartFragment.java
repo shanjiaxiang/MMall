@@ -14,13 +14,18 @@ import android.view.View;
 import android.view.ViewStub;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.joanzapata.iconify.widget.IconTextView;
 import com.late.core.app.Latte;
 import com.late.core.bottom.BottomItemFragment;
+import com.late.core.fragments.LatteFragment;
 import com.late.core.net.RestClient;
 import com.late.core.net.callback.ISuccess;
 import com.late.core.ui.recycler.MultipleItemEntity;
+import com.late.core.util.log.LatteLogger;
 import com.latte.ec.R;
+import com.latte.ec.pay.FastPay;
+import com.latte.ec.pay.IAliPayResultListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +35,7 @@ import java.util.WeakHashMap;
  * Created by Administrator on 2018\11\19 0019.
  */
 
-public class ShopCartFragment extends BottomItemFragment implements ISuccess,ICartItemListener {
+public class ShopCartFragment extends BottomItemFragment implements ISuccess,ICartItemListener,View.OnClickListener,IAliPayResultListener{
     private RecyclerView mRecyclerView = null;
     private ShopCartAdapter adapter = null;
     private IconTextView iconSelectedAll = null;
@@ -58,76 +63,10 @@ public class ShopCartFragment extends BottomItemFragment implements ISuccess,ICa
     }
 
     private void setClick() {
-        iconSelectedAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final int tag = (int) iconSelectedAll.getTag();
-                if (tag == 0) {
-
-                    iconSelectedAll.setTextColor(
-                            ContextCompat.getColor(getContext(), R.color.app_main));
-                    iconSelectedAll.setTag(1);
-                    adapter.setIsSelectedAll(true);
-                    //更新RecyclerView的显示状态
-                    adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-                } else {
-                    iconSelectedAll.setTextColor(Color.GRAY);
-                    iconSelectedAll.setTag(0);
-                    adapter.setIsSelectedAll(false);
-                    //更新RecyclerView的显示状态
-                    adapter.notifyItemRangeChanged(0, adapter.getItemCount());
-                }
-            }
-        });
-        tvRemoveSelectedItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final List <MultipleItemEntity> data = adapter.getData();
-                //要删除的数据
-                final List <MultipleItemEntity> deleteItemList = new ArrayList <>();
-                for (MultipleItemEntity entity : data) {
-                    final boolean isSelected = entity.getField(ShopCartItemFields.IS_SELECTED);
-                    if (isSelected) {
-                        deleteItemList.add(entity);
-                    }
-                }
-                Log.d("shopcart", "deleteItemList size:" + deleteItemList.size());
-                for (MultipleItemEntity entity : deleteItemList) {
-                    int removePosition;
-                    final int entityPosition = entity.getField(ShopCartItemFields.POSITION);
-                    if (entityPosition > mCurrentCount - 1) {
-                        removePosition = entityPosition - (mTotalCount - mCurrentCount);
-                    } else {
-                        removePosition = entityPosition;
-                    }
-
-                    if (removePosition <= adapter.getItemCount()) {
-                        adapter.remove(removePosition);
-                        mCurrentCount = adapter.getItemCount();
-                        adapter.notifyItemRangeChanged(removePosition, adapter.getItemCount());
-                    }
-                    Log.d("shopcart", "removePosition:" + removePosition);
-                    Log.d("shopcart", "mTotalCount:" + mTotalCount);
-                    Log.d("shopcart", "mCurrentCount:" + mCurrentCount);
-
-                }
-                checkItemCount();
-            }
-        });
-        tvClearAllSelectedItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                adapter.getData().clear();
-                adapter.notifyDataSetChanged();
-                checkItemCount();
-            }
-        });
-        mTvPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+        iconSelectedAll.setOnClickListener(this);
+        tvRemoveSelectedItem.setOnClickListener(this);
+        tvClearAllSelectedItem.setOnClickListener(this);
+        mTvPay.setOnClickListener(this);
     }
 
     //创建订单，注意，和支付是没有关系的
@@ -148,6 +87,11 @@ public class ShopCartFragment extends BottomItemFragment implements ISuccess,ICa
                     @Override
                     public void onSuccess(String response) {
                         //进行具体的支付
+                        final int orderId = JSON.parseObject(response).getInteger("result");
+                        FastPay.create(ShopCartFragment.this)
+                                .setPayResultListener(ShopCartFragment.this)
+                                .setOrderId(orderId)
+                                .beginPayDialog();
                     }
                 })
                 .build()
@@ -215,6 +159,111 @@ public class ShopCartFragment extends BottomItemFragment implements ISuccess,ICa
     public void onItemClick(double itemTotalPrice) {
         final double price = adapter.getTotalPrice();
         mTvTotalPrice.setText(String.valueOf(price));
+    }
+
+
+    //按钮点击事件
+    @Override
+    public void onClick(View view) {
+        int i = view.getId();
+        if (i == R.id.icon_shop_cart_select_all){
+
+            selectAll();
+        }else if (i == R.id.tv_top_shop_cart_remove_selected){
+            removeSelected();
+        }else if (i==R.id.tv_top_shop_cart_clear){
+            clearAll();
+        }else if (i == R.id.tv_shop_cart_pay){
+            FastPay.create(this)
+                    .beginPayDialog();
+//            createOrder();
+        }
+
+    }
+
+
+
+    private void selectAll(){
+        final int tag = (int) iconSelectedAll.getTag();
+        if (tag == 0) {
+
+            iconSelectedAll.setTextColor(
+                    ContextCompat.getColor(getContext(), R.color.app_main));
+            iconSelectedAll.setTag(1);
+            adapter.setIsSelectedAll(true);
+            //更新RecyclerView的显示状态
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+        } else {
+            iconSelectedAll.setTextColor(Color.GRAY);
+            iconSelectedAll.setTag(0);
+            adapter.setIsSelectedAll(false);
+            //更新RecyclerView的显示状态
+            adapter.notifyItemRangeChanged(0, adapter.getItemCount());
+        }
+    }
+
+    private void removeSelected(){
+        final List <MultipleItemEntity> data = adapter.getData();
+        //要删除的数据
+        final List <MultipleItemEntity> deleteItemList = new ArrayList <>();
+        for (MultipleItemEntity entity : data) {
+            final boolean isSelected = entity.getField(ShopCartItemFields.IS_SELECTED);
+            if (isSelected) {
+                deleteItemList.add(entity);
+            }
+        }
+        Log.d("shopcart", "deleteItemList size:" + deleteItemList.size());
+        for (MultipleItemEntity entity : deleteItemList) {
+            int removePosition;
+            final int entityPosition = entity.getField(ShopCartItemFields.POSITION);
+            if (entityPosition > mCurrentCount - 1) {
+                removePosition = entityPosition - (mTotalCount - mCurrentCount);
+            } else {
+                removePosition = entityPosition;
+            }
+
+            if (removePosition <= adapter.getItemCount()) {
+                adapter.remove(removePosition);
+                mCurrentCount = adapter.getItemCount();
+                adapter.notifyItemRangeChanged(removePosition, adapter.getItemCount());
+            }
+            Log.d("shopcart", "removePosition:" + removePosition);
+            Log.d("shopcart", "mTotalCount:" + mTotalCount);
+            Log.d("shopcart", "mCurrentCount:" + mCurrentCount);
+
+        }
+        checkItemCount();
+    }
+
+    private void clearAll(){
+        adapter.getData().clear();
+        adapter.notifyDataSetChanged();
+        checkItemCount();
+    }
+
+    @Override
+    public void onPaySuccess() {
+
+    }
+
+    @Override
+    public void onPaying() {
+
+    }
+
+    @Override
+    public void onPayFail() {
+
+    }
+
+    @Override
+    public void onPayCancel() {
+
+    }
+
+    @Override
+    public void onPayConnectError() {
+
     }
 
 
