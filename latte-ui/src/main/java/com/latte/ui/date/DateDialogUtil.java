@@ -38,7 +38,7 @@ public class DateDialogUtil {
             public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                 final Calendar calendar = Calendar.getInstance();
                 calendar.set(year, monthOfYear, dayOfMonth);
-                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日", Locale.getDefault());
+                SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINESE);
                 final String data = format.format(calendar.getTime());
                 if (mDateListener != null){
                     mDateListener.onDateChange(data);

@@ -37,9 +37,13 @@ public class ExampleActivity extends ProxyActivity implements
         StatusBarCompat.translucentStatusBar(this, true);
     }
 
+//    @Override
+//    public LatteFragment setRootDelegate() {
+//        return new LauncherFragment();
+//    }
     @Override
     public LatteFragment setRootDelegate() {
-        return new LauncherFragment();
+        return new EcBottomFragment();
     }
 
 

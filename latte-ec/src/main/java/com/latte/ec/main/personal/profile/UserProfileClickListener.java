@@ -32,7 +32,7 @@ public class UserProfileClickListener extends SimpleClickListener {
         switch (id){
             case 1:
                 //照相机或选择图片
-
+                FRAGMENT.startCameraWithCheck();
                 break;
             case 2:
                 //
