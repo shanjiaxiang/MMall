@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.late.core.bottom.BottomItemFragment;
 import com.latte.ec.R;
+import com.latte.ec.main.personal.address.AddressFragment;
 import com.latte.ec.main.personal.list.ListAdapter;
 import com.latte.ec.main.personal.list.ListBean;
 import com.latte.ec.main.personal.list.ListItemType;
@@ -68,6 +69,7 @@ public class PersonalFragment extends BottomItemFragment implements View.OnClick
         final ListBean address = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(1)
+                .setFragment(new AddressFragment())
                 .setText("收货地址")
                 .build();
 
@@ -85,6 +87,7 @@ public class PersonalFragment extends BottomItemFragment implements View.OnClick
         mRecyclerView.setLayoutManager(manager);
         mAdapter = new ListAdapter(data);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnItemTouchListener(new PersonalClickListener(this));
 
     }
 

@@ -2,12 +2,24 @@ package com.latte.ec.main.personal.profile;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.net.Uri;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.late.core.fragments.LatteFragment;
+import com.late.core.net.RestClient;
+import com.late.core.net.callback.IError;
+import com.late.core.net.callback.ISuccess;
+import com.late.core.util.callback.CallbackManager;
+import com.late.core.util.callback.CallbackType;
+import com.late.core.util.callback.IGlobalCallback;
+import com.late.core.util.log.LatteLogger;
 import com.latte.ec.R;
 import com.latte.ec.main.personal.list.ListBean;
 import com.latte.ui.date.DateDialogUtil;
@@ -32,6 +44,54 @@ public class UserProfileClickListener extends SimpleClickListener {
         switch (id){
             case 1:
                 //照相机或选择图片
+                CallbackManager.getInstance().addCallback(CallbackType.ON_CROP, new IGlobalCallback<Uri>() {
+                    @Override
+                    public void executeCallback(Uri args) {
+                        LatteLogger.d("ON_CROP", args);
+                        final ImageView avatar = (ImageView) view.findViewById(R.id.img_arrow_avatar);
+                        Glide.with(FRAGMENT)
+                                .load(args)
+                                .into(avatar);
+
+                        //上传照片
+                        RestClient.Builder()
+                                .url(UploadConfig.UPLOAD_IMG)
+                                .loader(FRAGMENT.getContext())
+                                .file(args.getPath())
+                                .success(new ISuccess() {
+                                    @Override
+                                    public void onSuccess(String response) {
+                                        LatteLogger.d("ON_CROP_UPLOAD", response);
+                                        final String path = JSON.parseObject(response).getJSONObject("result")
+                                                .getString("path");
+                                        //通知服务器更新信息
+                                        RestClient.Builder()
+                                                .url("user_profile.php")
+                                                .params("avatar", path)
+                                                .loader(FRAGMENT.getContext())
+                                                .success(new ISuccess() {
+                                                    @Override
+                                                    public void onSuccess(String response) {
+                                                        //获取更新后的用户信息，然后更新本地数据库
+                                                        //没有本地数据的APP，每次打开APP都请求API，获取信息
+                                                    }
+                                                })
+                                                .build()
+                                                .post();
+                                    }
+                                })
+                                .error(new IError() {
+                                    @Override
+                                    public void onError(int code, String msg) {
+                                        LatteLogger.d("ON_CROP_UPLOAD", msg);
+//                                        Toast.makeText(FRAGMENT.getContext(), "服务器地址错误", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                })
+                                .build()
+                                .upload();
+                    }
+                });
                 FRAGMENT.startCameraWithCheck();
                 break;
             case 2:

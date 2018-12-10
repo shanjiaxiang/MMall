@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.late.core" >
+    package="com.late.core">
 
     <!--网络权限-->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -22,7 +22,13 @@
 
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
     <application
         android:allowBackup="true"
-        android:supportsRtl="true"/>
+        android:supportsRtl="true">
+        <activity
+            android:name="com.yalantis.ucrop.UCropActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+    </application>
 </manifest>
