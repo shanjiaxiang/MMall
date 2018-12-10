@@ -20,6 +20,7 @@ import com.latte.ec.sign.ISignListener;
 import com.latte.ec.sign.SignInFragment;
 import com.latte.ec.sign.SignUpFragment;
 
+import cn.jpush.android.api.JPushInterface;
 import qiu.niorgai.StatusBarCompat;
 
 
@@ -73,5 +74,17 @@ public class ExampleActivity extends ProxyActivity implements
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        JPushInterface.onPause(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        JPushInterface.onResume(this);
     }
 }

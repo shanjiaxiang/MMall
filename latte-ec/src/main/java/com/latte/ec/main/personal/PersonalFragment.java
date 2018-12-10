@@ -17,6 +17,7 @@ import com.latte.ec.main.personal.list.ListBean;
 import com.latte.ec.main.personal.list.ListItemType;
 import com.latte.ec.main.personal.order.OrderListFramgent;
 import com.latte.ec.main.personal.profile.UserProfileFragment;
+import com.latte.ec.main.personal.settings.SettingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,6 +77,7 @@ public class PersonalFragment extends BottomItemFragment implements View.OnClick
         final ListBean system = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(2)
+                .setFragment(new SettingFragment())
                 .setText("系统设置")
                 .build();
         final List<ListBean> data = new ArrayList <>();

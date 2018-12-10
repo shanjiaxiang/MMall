@@ -1,5 +1,6 @@
 package com.latte.ec.main.personal.list;
 
+import android.support.v7.widget.SwitchCompat;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -26,11 +27,12 @@ public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHol
         super(data);
         addItemType(ListItemType.ITEM_NORMAL, R.layout.arrow_item_layout);
         addItemType(ListItemType.ITEM_AVATAR, R.layout.arrow_item_avatar);
+        addItemType(ListItemType.ITEM_SWITCH, R.layout.arrow_switch_layout);
     }
 
     @Override
     protected void convert(BaseViewHolder holder, ListBean item) {
-        switch (holder.getItemViewType()){
+        switch (holder.getItemViewType()) {
             case ListItemType.ITEM_NORMAL:
                 holder.setText(R.id.tv_arrow_text, item.getmText());
                 holder.setText(R.id.tv_arrow_value, item.getmValue());
@@ -40,6 +42,13 @@ public class ListAdapter extends BaseMultiItemQuickAdapter<ListBean, BaseViewHol
                         .load(item.getmImageUrl())
                         .apply(OPTIONS)
                         .into((ImageView) holder.getView(R.id.img_arrow_avatar));
+                break;
+            case ListItemType.ITEM_SWITCH:
+                holder.setText(R.id.tv_arrow_switch_text, item.getmText());
+                final SwitchCompat switchCompat = holder.getView(R.id.list_item_switch);
+                switchCompat.setChecked(true);
+                switchCompat.setOnCheckedChangeListener(item.getmOnCheckedChangeListener());
+            default:
                 break;
         }
     }

@@ -19,9 +19,6 @@ public class PersonalClickListener extends SimpleClickListener {
         final ListBean bean = (ListBean) baseQuickAdapter.getData().get(position);
         int id =  bean.getmId();
         switch (id){
-            case 1:
-                FRAGMENT.getLatteParentFragment().getSupportDelegate().start(bean.getmFragment());
-                break;
             case 2:
                 FRAGMENT.getLatteParentFragment().getSupportDelegate().start(bean.getmFragment());
                 break;
