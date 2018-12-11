@@ -61,6 +61,7 @@ public class OrderListFramgent extends LatteFragment {
                         final List<MultipleItemEntity> data = new OrderListDataConverter().setJsonData(response).convert();
                         OrderListAdapter adapter = new OrderListAdapter(data);
                         mRecyclerView.setAdapter(adapter);
+                        mRecyclerView.addOnItemTouchListener(new OrderListClickListener(OrderListFramgent.this));
                     }
                 })
                 .build()
