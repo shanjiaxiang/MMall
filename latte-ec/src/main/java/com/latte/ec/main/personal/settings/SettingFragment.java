@@ -13,8 +13,6 @@ import com.late.core.fragments.LatteFragment;
 import com.late.core.util.callback.CallbackManager;
 import com.late.core.util.callback.CallbackType;
 import com.latte.ec.R;
-import com.latte.ec.main.personal.PersonalClickListener;
-import com.latte.ec.main.personal.address.AddressFragment;
 import com.latte.ec.main.personal.list.ListAdapter;
 import com.latte.ec.main.personal.list.ListBean;
 import com.latte.ec.main.personal.list.ListItemType;
@@ -36,7 +34,6 @@ public class SettingFragment extends LatteFragment {
         final ListBean push = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_SWITCH)
                 .setId(1)
-                .setFragment(new AddressFragment())
                 .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
@@ -55,6 +52,7 @@ public class SettingFragment extends LatteFragment {
         final ListBean about = new ListBean.Builder()
                 .setItemType(ListItemType.ITEM_NORMAL)
                 .setId(2)
+                .setFragment(new InfoFragment())
                 .setText("关于")
                 .build();
         final List<ListBean> data = new ArrayList<>();
@@ -66,6 +64,6 @@ public class SettingFragment extends LatteFragment {
         mRecyclerView.setLayoutManager(manager);
         ListAdapter mAdapter = new ListAdapter(data);
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.addOnItemTouchListener(new PersonalClickListener(this));
+        mRecyclerView.addOnItemTouchListener(new SettingsClickListener(this));
     }
 }
