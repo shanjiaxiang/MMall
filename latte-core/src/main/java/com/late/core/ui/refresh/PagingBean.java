@@ -16,47 +16,47 @@ public class PagingBean {
     //加载延迟
     private int mDelayed = 0;
 
-    public int getmPageIndex() {
+    public int getPageIndex() {
         return mPageIndex;
     }
 
-    public PagingBean setmPageIndex(int mPageIndex) {
+    public PagingBean setPageIndex(int mPageIndex) {
         this.mPageIndex = mPageIndex;
         return this;
     }
 
-    public int getmTotal() {
+    public int getTotal() {
         return mTotal;
     }
 
-    public PagingBean setmTotal(int mTotal) {
+    public PagingBean setTotal(int mTotal) {
         this.mTotal = mTotal;
         return this;
     }
 
-    public int getmPageSize() {
+    public int getPageSize() {
         return mPageSize;
     }
 
-    public PagingBean setmPageSize(int mPageSize) {
+    public PagingBean setPageSize(int mPageSize) {
         this.mPageSize = mPageSize;
         return this;
     }
 
-    public int getmCurrentCount() {
+    public int getCurrentCount() {
         return mCurrentCount;
     }
 
-    public PagingBean setmCurrentCount(int mCurrentCount) {
+    public PagingBean setCurrentCount(int mCurrentCount) {
         this.mCurrentCount = mCurrentCount;
         return this;
     }
 
-    public int getmDelayed() {
+    public int getDelayed() {
         return mDelayed;
     }
 
-    public PagingBean setmDelayed(int mDelayed) {
+    public PagingBean setDelayed(int mDelayed) {
         this.mDelayed = mDelayed;
         return this;
     }

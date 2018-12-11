@@ -10,11 +10,16 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
+
 import com.joanzapata.iconify.widget.IconTextView;
 import com.late.core.bottom.BottomItemFragment;
 import com.late.core.ui.recycler.BaseDecoration;
 import com.late.core.ui.refresh.PagingBean;
 import com.late.core.ui.refresh.RefreshHandler;
+import com.late.core.util.callback.CallbackManager;
+import com.late.core.util.callback.CallbackType;
+import com.late.core.util.callback.IGlobalCallback;
 import com.latte.ec.R;
 import com.latte.ec.main.EcBottomFragment;
 
@@ -40,8 +45,15 @@ public class IndexFragment extends BottomItemFragment {
     @Override
     public void onBindView(@Nullable Bundle savedInstanceState, @NonNull View rootView) {
         viewBindId();
-        mRefreshHandler = new RefreshHandler(mRefreshLayout, mRecycleView, new IndexDataConverter(), new PagingBean());
+        mRefreshHandler = RefreshHandler.create(mRefreshLayout, mRecycleView, new IndexDataConverter());
 
+        CallbackManager.getInstance()
+                .addCallback(CallbackType.ON_SCAN, new IGlobalCallback<String>() {
+                    @Override
+                    public void executeCallback(String args) {
+                        Toast.makeText(getContext(), args, Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
@@ -80,5 +92,12 @@ public class IndexFragment extends BottomItemFragment {
         mScanIcon = $(R.id.icon_index_scan);
         mSearchView = $(R.id.et_search_view);
         mMessageIcon = $(R.id.icon_index_message);
+
+        mScanIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startScanWithCheck(getLatteParentFragment());
+            }
+        });
     }
 }

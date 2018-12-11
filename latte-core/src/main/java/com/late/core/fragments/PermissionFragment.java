@@ -6,12 +6,14 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
 import com.late.core.ui.camera.CameraImageBean;
 import com.late.core.ui.camera.LatteCamera;
 import com.late.core.ui.camera.RequestCodes;
+import com.late.core.ui.scanner.ScannerFragment;
 import com.late.core.util.callback.CallbackManager;
 import com.late.core.util.callback.CallbackType;
 import com.late.core.util.callback.IGlobalCallback;
@@ -39,6 +41,7 @@ public abstract class PermissionFragment extends BaseFragment {
         LatteCamera.start(this);
     }
 
+    //获取读写外部存储的权限
     public void getWritePermission() {
         PermissionFragmentPermissionsDispatcher.getWriteExStorageWithPermissionCheck(this);
     }
@@ -46,6 +49,19 @@ public abstract class PermissionFragment extends BaseFragment {
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     void getWriteExStorage() {
     }
+
+    public void startScanWithCheck(BaseFragment fragment){
+        getWritePermission();
+        PermissionFragmentPermissionsDispatcher.startScanWithPermissionCheck(this, fragment);
+    }
+
+
+    //扫描二维码，不直接调用
+    @NeedsPermission(Manifest.permission.CAMERA)
+    void startScan(BaseFragment fragment){
+        fragment.getSupportDelegate().startForResult(new ScannerFragment(), RequestCodes.SCAN);
+    }
+
 
     private void showRationaleDialog(final PermissionRequest request) {
         if (getContext() != null) {
@@ -129,6 +145,21 @@ public abstract class PermissionFragment extends BaseFragment {
                     break;
                 default:
                     break;
+            }
+        }
+    }
+
+    @Override
+    public void onFragmentResult(int requestCode, int resultCode, Bundle data) {
+        super.onFragmentResult(requestCode, resultCode, data);
+        if (requestCode == RequestCodes.SCAN){
+            if (data!=null){
+                final String qrCode = data.getString("SCAN_RESULT");
+                final IGlobalCallback<String> callback =
+                        CallbackManager.getInstance().getCallback(CallbackType.ON_SCAN);
+                if (callback!= null){
+                    callback.executeCallback(qrCode);
+                }
             }
         }
     }
