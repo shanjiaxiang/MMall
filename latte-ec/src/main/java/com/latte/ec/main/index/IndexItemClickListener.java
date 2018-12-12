@@ -5,6 +5,9 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.SimpleClickListener;
 import com.late.core.fragments.LatteFragment;
+import com.late.core.ui.recycler.MultipleFields;
+import com.late.core.ui.recycler.MultipleItemEntity;
+import com.late.core.util.log.LatteLogger;
 import com.latte.ec.detail.GoodsDetailFragment;
 
 /**
@@ -25,7 +28,9 @@ public class IndexItemClickListener extends SimpleClickListener {
 
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-        final GoodsDetailFragment fragment = GoodsDetailFragment.create();
+        final MultipleItemEntity entity = (MultipleItemEntity) adapter.getData().get(position);
+        final int goodsId = entity.getField(MultipleFields.ID);
+        final GoodsDetailFragment fragment = GoodsDetailFragment.create(goodsId);
         FRAGMENT.start(fragment);
     }
 
