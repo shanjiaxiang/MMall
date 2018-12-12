@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.AppCompatEditText;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,17 +23,18 @@ import com.late.core.util.callback.CallbackType;
 import com.late.core.util.callback.IGlobalCallback;
 import com.latte.ec.R;
 import com.latte.ec.main.EcBottomFragment;
+import com.latte.ec.main.index.search.SearchFragment;
 
 /**
  * Created by Administrator on 2018\11\14 0014.
  */
 
-public class IndexFragment extends BottomItemFragment {
+public class IndexFragment extends BottomItemFragment{
     RecyclerView mRecycleView = null;
     SwipeRefreshLayout mRefreshLayout = null;
     Toolbar mToolbar = null;
     IconTextView mScanIcon = null;
-    AppCompatEditText mSearchView = null;
+    AppCompatTextView mSearchView = null;
     IconTextView mMessageIcon = null;
 
     private RefreshHandler mRefreshHandler = null;
@@ -99,5 +101,12 @@ public class IndexFragment extends BottomItemFragment {
                 startScanWithCheck(getLatteParentFragment());
             }
         });
+        mSearchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getLatteParentFragment().start(new SearchFragment());
+            }
+        });
+
     }
 }
